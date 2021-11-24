@@ -1,0 +1,39 @@
+[package]
+name = "script-bench"
+version = "0.1.0"
+edition = "2021"
+authors = ["Aleksandr Orlenko <zxteam@pm.me>"]
+
+[features]
+mlua_lua54 = ["mlua/lua54", "mlua/vendored"]
+mlua_luau = ["mlua/luau"]
+
+[dependencies]
+rand = "0.8"
+mlua = { git = "https://github.com/khvzak/mlua", optional = true }
+rlua = { version = "0.19", optional =  true }
+rhai = { version = "1.8", optional = true }
+itertools = "0.10"
+
+[dev-dependencies]
+criterion = { version = "0.3" }
+
+[[bench]]
+name = "mlua_lua54"
+harness = false
+required-features = ["mlua_lua54"]
+
+[[bench]]
+name = "mlua_luau"
+harness = false
+required-features = ["mlua_luau"]
+
+[[bench]]
+name = "rlua"
+harness = false
+required-features = ["rlua"]
+
+[[bench]]
+name = "rhai"
+harness = false
+required-features = ["rhai"]
