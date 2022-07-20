@@ -9,7 +9,7 @@ end
 
 local array = {}
 for i = 1, 100000 do
-    table.insert(array, RustString.new(generate_string(rand(16))))
+    table.insert(array, RustData.new(generate_string(rand(16) + 1)))
 end
 
 table.sort(array)

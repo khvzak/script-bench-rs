@@ -7,14 +7,16 @@ import matplotlib.pyplot as plt
 
 def run_benchmark(name):
     print(f"Running benchmark for {name}")
-    proc = subprocess.Popen(
+    proc = subprocess.run(
         f"cargo criterion --bench {name} --message-format json --features {name}",
         shell=True,
         stdout=subprocess.PIPE,
         stderr=subprocess.DEVNULL,
+        text=True,
+        check=True,
     )
     res = []
-    for line in proc.stdout.readlines():
+    for line in proc.stdout.splitlines():
         x = json.loads(line)
         if "id" in x:
             res.append(x)

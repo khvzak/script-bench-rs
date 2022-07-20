@@ -4,11 +4,11 @@ use criterion::{criterion_group, criterion_main, Criterion};
 use rlua::{Lua, MetaMethod, UserData, UserDataMethods};
 
 #[derive(Clone, Default, PartialEq, Eq, PartialOrd, Ord)]
-struct RustString(Arc<String>);
+struct RustData(Arc<String>);
 
-impl UserData for RustString {
+impl UserData for RustData {
     fn add_methods<'lua, M: UserDataMethods<'lua, Self>>(methods: &mut M) {
-        methods.add_function("new", |_, s: String| Ok(RustString(Arc::new(s))));
+        methods.add_function("new", |_, s: String| Ok(RustData(Arc::new(s))));
         methods.add_meta_method(MetaMethod::Lt, |_, this, rhs: Self| Ok(this < &rhs));
         methods.add_meta_method(MetaMethod::ToString, |_, this, ()| Ok(this.0.to_string()));
     }
@@ -21,8 +21,8 @@ fn benchmark(c: &mut Criterion) {
         let globals = ctx.globals();
         globals
             .set(
-                "RustString",
-                ctx.create_userdata(RustString::default()).unwrap(),
+                "RustData",
+                ctx.create_userdata(RustData::default()).unwrap(),
             )
             .unwrap();
         globals
