@@ -11,8 +11,9 @@ mlua_luau = ["mlua/luau"]
 [dependencies]
 rand = "0.8"
 mlua = { version = "0.8.4", optional = true }
-rlua = { version = "0.19", optional =  true }
-rhai = { version = "1.10", optional = true }
+rlua = { version = "0.19.4", optional =  true }
+rhai = { version = "1.10.1", optional = true }
+rune = { version = "0.12.0", optional = true }
 itertools = "0.10"
 
 [dev-dependencies]
@@ -41,3 +42,8 @@ required-features = ["rlua"]
 name = "rhai"
 harness = false
 required-features = ["rhai"]
+
+[[bench]]
+name = "rune"
+harness = false
+required-features = ["rune"]
