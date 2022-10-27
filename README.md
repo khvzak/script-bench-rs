@@ -2,7 +2,7 @@
 
 The project goal is to benchmark most popular embedded scripting languages for Rust.
 
-- [mlua](https://crates.io/crates/mlua) (Lua 5.4 and Luau)
+- [mlua](https://crates.io/crates/mlua) (Lua 5.4, LuaJIT and Luau)
 - [rlua](https://crates.io/crates/rlua) (Lua 5.4)
 - [rhai](https://crates.io/crates/rhai)
 - [rune](https://crates.io/crates/rune)
@@ -15,14 +15,14 @@ Simply run the `bench.py` script to generate images. It requires `cargo criterio
 
 ## Environment
 
-|       |                               |
-|-------|-------------------------------|
-| OS    | macOS 12.6, Core i9-9880H     |
-| mlua  | v0.8.4                        |
-| rlua  | v0.19.4                       |
-| rhai  | v1.10.1                       |
-| rune  | v0.12.0                       |
-| rustc | v1.64.0                       |
+|       |                |
+| ----- | -------------- |
+| OS    | macOS 12.6, M2 |
+| mlua  | v0.8.4         |
+| rlua  | v0.19.4        |
+| rhai  | v1.10.1        |
+| rune  | v0.12.0        |
+| rustc | v1.64.0        |
 
 ## Results
 
