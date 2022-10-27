@@ -27,8 +27,6 @@ const PROG: &'static str = r#"
     for i in 0..100000 {
         array.push(RustData_new(generate_string.call(rand(16) + 1)));
     }
-
-    array.sort(|a, b| return if a < b { -1 } else if b < a { 1 } else { 0 });
 "#;
 
 fn benchmark(c: &mut Criterion) {

@@ -28,8 +28,6 @@ pub fn main() {
     for i in 0..100000 {
         array.push(RustData::new(generate_string(rand(16) + 1)));
     }
-
-    array.sort_by(|a, b| a.cmp(b));
 }"#;
 
 pub fn module() -> Result<Module, ContextError> {
