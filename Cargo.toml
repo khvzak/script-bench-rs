@@ -7,6 +7,7 @@ authors = ["Aleksandr Orlenko <zxteam@pm.me>"]
 [features]
 mlua_lua54 = ["mlua/lua54", "mlua/vendored"]
 mlua_luau = ["mlua/luau"]
+mlua_luajit = ["mlua/luajit", "mlua/vendored"]
 
 [dependencies]
 rand = "0.8"
@@ -32,6 +33,11 @@ required-features = ["mlua_lua54"]
 name = "mlua_luau"
 harness = false
 required-features = ["mlua_luau"]
+
+[[bench]]
+name = "mlua_luajit"
+harness = false
+required-features = ["mlua_luajit"]
 
 [[bench]]
 name = "rlua"
