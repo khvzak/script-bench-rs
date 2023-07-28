@@ -23,6 +23,7 @@ Simply run the `bench.py` script to generate images. It requires `cargo criterio
 | rhai  | v1.15.1                       |
 | rune  | v0.12.4                       |
 | rustc | v1.71.0                       |
+| llvm  | 16.0.0                        |
 
 ## Results
 
