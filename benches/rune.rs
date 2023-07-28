@@ -26,10 +26,45 @@ pub fn main() {
 
     let array = Vec::new();
     for i in 0..100000 {
-        array.push(RustData::new(generate_string(rand(16) + 1)));
+        array.push(RustData::new(generate_string(8 + rand(16))));
     }
 
-    array.sort_by(|a, b| a.cmp(b));
+    fn partition(arr, lo, hi) {
+        let pivot = arr[(hi - lo) / 2 + lo];
+        let i = lo - 1;
+        let j = hi + 1;
+        loop {
+            loop {
+                i = i + 1;
+                if !arr[i].lt(pivot) {
+                    break;
+                }
+            }
+            loop {
+                j = j - 1;
+                if arr[j].le(pivot) {
+                    break;
+                }
+            }
+            if i >= j {
+                return j;
+            }
+            let t = arr[i];
+            arr[i] = arr[j];
+            arr[j] = t;
+        }
+    }
+
+    fn quicksort(arr, lo, hi) {
+        while lo >= 0 && hi >= 0 && lo < hi {
+            let p = partition(arr, lo, hi);
+            quicksort(arr, lo, p);
+            // tail recursion
+            lo = p + 1;
+        }
+    }
+
+    quicksort(array, 0, array.len() - 1);
 }"#;
 
 pub fn module() -> Result<Module, ContextError> {
@@ -37,7 +72,8 @@ pub fn module() -> Result<Module, ContextError> {
 
     module.ty::<RustData>()?;
     module.function(&["RustData", "new"], RustData::new)?;
-    module.inst_fn("cmp", RustData::cmp)?;
+    module.inst_fn("lt", |a: &RustData, b: &RustData| a < b)?;
+    module.inst_fn("le", |a: &RustData, b: &RustData| a <= b)?;
 
     module.function(&["rand"], |n: i64| rand::random::<u32>() as i64 % n)?;
     module.function(&["concat"], |items: Vec<String>| -> String {

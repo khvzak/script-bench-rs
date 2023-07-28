@@ -10,6 +10,7 @@ impl UserData for RustData {
     fn add_methods<'lua, M: UserDataMethods<'lua, Self>>(methods: &mut M) {
         methods.add_function("new", |_, s: String| Ok(RustData(Arc::new(s))));
         methods.add_meta_method(MetaMethod::Lt, |_, this, rhs: Self| Ok(this < &rhs));
+        methods.add_meta_method(MetaMethod::Le, |_, this, rhs: Self| Ok(this <= &rhs));
         methods.add_meta_method(MetaMethod::ToString, |_, this, ()| Ok(this.0.to_string()));
     }
 }

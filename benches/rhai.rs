@@ -25,19 +25,50 @@ const PROG: &'static str = r#"
 
     let array = [];
     for i in 0..100000 {
-        array.push(RustData_new(generate_string.call(rand(16) + 1)));
+        array.push(RustData_new(generate_string.call(8 + rand(16))));
     }
 
-    array.sort(|a, b| return if a < b { -1 } else if b < a { 1 } else { 0 });
+    fn partition(lo, hi) {
+        let pivot = this[(hi - lo) / 2 + lo];
+        let i = lo - 1;
+        let j = hi + 1;
+        loop {
+            do {
+                i = i + 1;
+            } while this[i] < pivot;
+            do {
+                j = j - 1;
+            } while this[j] > pivot;
+            if i >= j {
+                return j;
+            }
+            let t = this[i];
+            this[i] = this[j];
+            this[j] = t;
+        }
+    }
+
+    fn quicksort(lo, hi) {
+        while lo >= 0 && hi >= 0 && lo < hi {
+            let p = this.partition(lo, hi);
+            this.quicksort(lo, p);
+            // tail recursion
+            lo = p + 1;
+        }
+    }
+
+    array.quicksort(0, array.len - 1);
 "#;
 
 fn benchmark(c: &mut Criterion) {
     let mut engine = Engine::new();
+    engine.set_max_call_levels(1000);
 
     engine
         .register_type_with_name::<RustData>("RustData")
         .register_fn("RustData_new", RustData::new)
         .register_fn("<", |l: &mut RustData, r: RustData| *l < r)
+        .register_fn(">", |l: &mut RustData, r: RustData| *l > r)
         .register_fn("rand", |n: i64| rand::random::<u32>() as i64 % n)
         .register_fn("concat", |items: Array| {
             items

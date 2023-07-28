@@ -12,6 +12,9 @@ impl UserData for RustData {
         methods.add_meta_method(MetaMethod::Lt, |_, this, rhs: UserDataRef<Self>| {
             Ok(this < &rhs)
         });
+        methods.add_meta_method(MetaMethod::Le, |_, this, rhs: UserDataRef<Self>| {
+            Ok(this <= &rhs)
+        });
         methods.add_meta_method(MetaMethod::ToString, |_, this, ()| Ok(this.0.to_string()));
     }
 }
@@ -32,7 +35,10 @@ fn benchmark(c: &mut Criterion) {
         .unwrap();
 
     #[cfg(feature = "mlua_luau")]
-    lua.sandbox(true).unwrap();
+    {
+        lua.sandbox(true).unwrap();
+        lua.set_compiler(mlua::Compiler::new().set_optimization_level(2));
+    }
 
     let f = lua
         .load(include_str!("sort_userdata.lua"))
