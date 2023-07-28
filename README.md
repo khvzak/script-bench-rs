@@ -17,12 +17,12 @@ Simply run the `bench.py` script to generate images. It requires `cargo criterio
 
 |       |                               |
 |-------|-------------------------------|
-| OS    | macOS 13.3, Core i9-9880H     |
-| mlua  | v0.9.0-beta.2                 |
-| rlua  | v0.19.4                       |
-| rhai  | v1.14.0                       |
-| rune  | v0.12.3                       |
-| rustc | v1.69.0                       |
+| OS    | Ubuntu 23.04, r6i.8xlarge     |
+| mlua  | v0.9.0                        |
+| rlua  | v0.19.7                       |
+| rhai  | v1.15.1                       |
+| rune  | v0.12.4                       |
+| rustc | v1.71.0                       |
 
 ## Results
 
