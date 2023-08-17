@@ -10,7 +10,7 @@ mlua_luau = ["mlua/luau-jit"]
 
 [dependencies]
 rand = "0.8"
-mlua = { version = "0.9.0-rc.3", optional = true }
+mlua = { version = "0.9.0", optional = true }
 rlua = { version = "0.19.7", optional =  true }
 rhai = { version = "1.15.1", optional = true }
 rune = { version = "0.12.4", optional = true }
