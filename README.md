@@ -18,9 +18,9 @@ Simply run the `bench.py` script to generate images. It requires `cargo criterio
 |       |                               |
 |-------|-------------------------------|
 | OS    | Ubuntu 23.04, r6i.8xlarge     |
-| mlua  | v0.9.0                        |
+| mlua  | v0.9.2                        |
 | rlua  | v0.19.7                       |
-| rhai  | v1.15.1                       |
+| rhai  | v1.16.3                       |
 | rune  | v0.12.4                       |
 | rustc | v1.71.0                       |
 | llvm  | 16.0.0                        |
