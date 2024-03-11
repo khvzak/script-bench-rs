@@ -803,6 +803,33 @@ dependencies = [
 ]
 
 [[package]]
+name = "rquickjs"
+version = "0.5.1"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "ad7f63201fa6f2ff8173e4758ea552549d687d8f63003361a8b5c50f7c446ded"
+dependencies = [
+ "rquickjs-core",
+]
+
+[[package]]
+name = "rquickjs-core"
+version = "0.5.1"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "cad00eeddc0f88af54ee202c8385fb214fe0423897c056a7df8369fb482e3695"
+dependencies = [
+ "rquickjs-sys",
+]
+
+[[package]]
+name = "rquickjs-sys"
+version = "0.5.1"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "120dbbc3296de9b96de8890091635d46f3506cd38b4e8f21800c386c035d64fa"
+dependencies = [
+ "cc",
+]
+
+[[package]]
 name = "rune"
 version = "0.13.2"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -918,6 +945,7 @@ dependencies = [
  "mlua",
  "rand",
  "rhai",
+ "rquickjs",
  "rune",
 ]
 
