@@ -4,6 +4,9 @@ version = "0.1.0"
 edition = "2021"
 authors = ["Aleksandr Orlenko <zxteam@pm.me>"]
 
+[lib]
+name = "script_bench"
+
 [features]
 mlua_lua54 = ["mlua/lua54", "mlua/vendored"]
 mlua_luau = ["mlua/luau-jit"]
@@ -11,9 +14,6 @@ mlua_luau = ["mlua/luau-jit"]
 [dependencies]
 rand = "0.8"
 mlua = { version = "0.9.6", optional = true }
-rhai = { version = "1.17.1", optional = true }
-rune = { version = "0.12.4", optional = true }
-itertools = "0.12"
 
 [dev-dependencies]
 criterion = { version = "0.5" }
@@ -30,13 +30,3 @@ required-features = ["mlua_lua54"]
 name = "mlua_luau"
 harness = false
 required-features = ["mlua_luau"]
-
-[[bench]]
-name = "rhai"
-harness = false
-required-features = ["rhai"]
-
-[[bench]]
-name = "rune"
-harness = false
-required-features = ["rune"]
