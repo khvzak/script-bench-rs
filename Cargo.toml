@@ -8,6 +8,7 @@ authors = ["Aleksandr Orlenko <zxteam@pm.me>"]
 name = "script_bench"
 
 [features]
+boa = ["boa_engine", "boa_gc", "boa_runtime"]
 mlua_lua54 = ["mlua/lua54", "mlua/vendored"]
 mlua_luau = ["mlua/luau-jit"]
 rhai = ["dep:rhai", "dep:itertools", "dep:anyhow"]
@@ -17,6 +18,9 @@ rune = ["dep:rune", "dep:anyhow"]
 rand = "0.8"
 anyhow = { version = "1.0", optional = true }
 itertools = { version = "0.12", optional = true }
+boa_engine = { version = "0.18.0", optional = true }
+boa_gc = { version = "0.18.0", optional = true }
+boa_runtime = { version = "0.18.0", optional = true }
 mlua = { version = "0.9.6", optional = true }
 rhai = { version = "1.17.1", optional = true }
 rquickjs = { version = "0.5.1", optional = true }
@@ -27,6 +31,11 @@ criterion = { version = "0.5" }
 
 [profile.bench]
 lto = true
+
+[[bench]]
+name = "boa"
+harness = false
+required-features = ["boa"]
 
 [[bench]]
 name = "mlua_lua54"
