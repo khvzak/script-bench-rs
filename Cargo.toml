@@ -10,10 +10,14 @@ name = "script_bench"
 [features]
 mlua_lua54 = ["mlua/lua54", "mlua/vendored"]
 mlua_luau = ["mlua/luau-jit"]
+rhai = ["dep:rhai", "dep:itertools", "dep:anyhow"]
 
 [dependencies]
 rand = "0.8"
+anyhow = { version = "1.0", optional = true }
+itertools = { version = "0.12", optional = true }
 mlua = { version = "0.9.6", optional = true }
+rhai = { version = "1.17.1", optional = true }
 
 [dev-dependencies]
 criterion = { version = "0.5" }
@@ -30,3 +34,8 @@ required-features = ["mlua_lua54"]
 name = "mlua_luau"
 harness = false
 required-features = ["mlua_luau"]
+
+[[bench]]
+name = "rhai"
+harness = false
+required-features = ["rhai"]
