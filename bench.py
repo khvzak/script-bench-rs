@@ -37,8 +37,8 @@ for id in ids:
     fig, ax = plt.subplots()
 
     ymax = 0
-    for (name, bench) in sorted(benches.items(), key=lambda x: x[0]):
-        val = round(bench[id]["typical"]["estimate"]) / 1000000
+    for (name, bench) in sorted(benches.items(), key=lambda x: x[1][id]["typical"]["estimate"]):
+        val = round(bench[id]["typical"]["estimate"] / 1000000, 2)
         rect = ax.bar(name, val, width=0.3)
         ax.bar_label(rect, padding=3)
         ymax = max(ymax, val)
