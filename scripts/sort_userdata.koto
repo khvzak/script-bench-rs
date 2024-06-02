@@ -1,0 +1,31 @@
+charset = [ "0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "a", "b", "c", "d", "e", "f" ]
+
+generate_string = |len|
+    data = []
+    for i in 0..len
+        data.push charset[rand(charset.count())]
+    data.fold "", |acc, el| '{acc}{el}'
+
+partition = |arr, lo, hi|
+    pivot_idx = ((lo + hi) / 2).floor()
+    pivot = arr[pivot_idx]
+    j = lo
+    for i in lo..hi
+        if arr[i] < pivot
+            arr[i], arr[j] = arr[j], arr[i]
+            j += 1
+    arr[j], arr[hi] = arr[hi], arr[j]
+    j
+
+quicksort = |arr, lo, hi|
+    while lo < hi
+        p = partition arr, lo, hi
+        quicksort arr, lo, (p - 1)
+        lo = p + 1
+
+
+array = []
+for _ in 0..10000
+    data = generate_string(8 + rand(16)) >> RustData_new
+    array.push data
+quicksort array, 0, (array.count() - 1)

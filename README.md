@@ -7,6 +7,7 @@ The project goal is to benchmark most popular embedded scripting languages for R
 - [rhai](https://crates.io/crates/rhai)
 - [rquickjs](https://crates.io/crates/rquickjs)
 - [rune](https://crates.io/crates/rune)
+- [koto](https://crates.io/crates/koto)
 
 The benchmark is designed to cover not only the performance of code evaluation but interoperability with Rust too.
 
@@ -18,13 +19,14 @@ Simply run the `bench.py` script to generate images. It requires `cargo criterio
 
 |          |                               |
 |----------|-------------------------------|
-| OS       | Ubuntu 23.04, r6i.8xlarge     |
+| OS       | Pop!_OS 22.04 x86_64          |
 | boa      | v0.18.0                       |
 | mlua     | v0.9.6                        |
 | rhai     | v1.17.1                       |
-| rquickjs | v0.5.1                        |
+| rquickjs | v0.6.2                        |
 | rune     | v0.13.2                       |
-| rustc    | v1.76.0                       |
+| koto     | v0.14.0                       |
+| rustc    | v1.78.0                       |
 
 ## Results
 
