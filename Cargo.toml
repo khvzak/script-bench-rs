@@ -9,6 +9,7 @@ name = "script_bench"
 
 [features]
 boa = ["boa_engine", "boa_gc", "boa_runtime"]
+koto = ["dep:koto", "dep:anyhow"]
 mlua_lua54 = ["mlua/lua54", "mlua/vendored"]
 mlua_luau = ["mlua/luau-jit"]
 rhai = ["dep:rhai", "dep:itertools", "dep:anyhow"]
@@ -23,6 +24,7 @@ itertools = { version = "0.14", optional = true }
 boa_engine = { version = "0.20.0", optional = true }
 boa_gc = { version = "0.20.0", optional = true }
 boa_runtime = { version = "0.20.0", optional = true }
+koto = { version = "0.15.3", optional = true }
 mlua = { version = "0.10.3", optional = true }
 rhai = { version = "1.21.0", optional = true }
 rquickjs = { version = "0.9.0", optional = true }
@@ -40,6 +42,11 @@ lto = true
 name = "boa"
 harness = false
 required-features = ["boa"]
+
+[[bench]]
+name = "koto"
+harness = false
+required-features = ["koto"]
 
 [[bench]]
 name = "mlua_lua54"

@@ -3,6 +3,7 @@
 The project goal is to benchmark most popular embedded scripting languages for Rust.
 
 - [boa](https://boajs.dev)
+- [koto](https://crates.io/crates/koto)
 - [mlua](https://crates.io/crates/mlua) (Lua 5.4 and Luau)
 - [rhai](https://crates.io/crates/rhai)
 - [rquickjs](https://crates.io/crates/rquickjs)
@@ -25,6 +26,7 @@ You also must have `wasm32-unknown-unknown` target installed for webassembly ben
 | OS       | Ubuntu 22.04, m6i.16xlarge    |
 | rustc    | v1.83.0                       |
 | boa      | v0.20.0                       |
+| koto     | v0.15.3                       |
 | mlua     | v0.10.3                       |
 | rhai     | v1.21.0                       |
 | rquickjs | v0.9.0                        |
