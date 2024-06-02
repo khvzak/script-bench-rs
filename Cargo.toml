@@ -13,6 +13,7 @@ mlua_lua54 = ["mlua/lua54", "mlua/vendored"]
 mlua_luau = ["mlua/luau-jit"]
 rhai = ["dep:rhai", "dep:itertools", "dep:anyhow"]
 rune = ["dep:rune", "dep:anyhow"]
+koto = ["dep:koto", "koto/rc"]
 
 [dependencies]
 rand = "0.8"
@@ -25,6 +26,7 @@ mlua = { version = "0.9.6", optional = true }
 rhai = { version = "1.17.1", optional = true }
 rquickjs = { version = "0.5.1", optional = true }
 rune = { version = "0.13.2", optional = true }
+koto = { version = "0.14.0", default-features = false, optional = true }
 
 [dev-dependencies]
 criterion = { version = "0.5" }
@@ -61,3 +63,8 @@ required-features = ["rquickjs"]
 name = "rune"
 harness = false
 required-features = ["rune"]
+
+[[bench]]
+name = "koto"
+harness = false
+required-features = ["koto"]
