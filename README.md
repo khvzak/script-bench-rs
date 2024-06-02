@@ -23,7 +23,7 @@ Simply run the `bench.py` script to generate images. It requires `cargo criterio
 | boa      | v0.18.0                       |
 | mlua     | v0.9.6                        |
 | rhai     | v1.17.1                       |
-| rquickjs | v0.6.2                        |
+| rquickjs | v0.5.1                        |
 | rune     | v0.13.2                       |
 | koto     | v0.14.0                       |
 | rustc    | v1.78.0                       |
