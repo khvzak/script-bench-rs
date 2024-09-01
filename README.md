@@ -19,12 +19,12 @@ Simply run the `bench.py` script to generate images. It requires `cargo criterio
 |          |                               |
 |----------|-------------------------------|
 | OS       | Ubuntu 23.04, r6i.8xlarge     |
-| boa      | v0.18.0                       |
-| mlua     | v0.9.6                        |
-| rhai     | v1.17.1                       |
-| rquickjs | v0.5.1                        |
-| rune     | v0.13.2                       |
-| rustc    | v1.76.0                       |
+| boa      | v0.19.1                       |
+| mlua     | v0.9.9                        |
+| rhai     | v1.19.0                       |
+| rquickjs | v0.6.2                        |
+| rune     | v0.13.4                       |
+| rustc    | v1.80.1                       |
 
 ## Results
 

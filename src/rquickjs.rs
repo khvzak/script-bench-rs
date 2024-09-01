@@ -13,7 +13,7 @@ impl<'js> Trace<'js> for RustData {
 
 impl<'js> FromJs<'js> for RustData {
     fn from_js(_: &Ctx<'js>, value: Value<'js>) -> Result<Self> {
-        Ok(Class::<Self>::from_value(value)?.try_borrow()?.clone())
+        Ok(Class::<Self>::from_value(&value)?.try_borrow()?.clone())
     }
 }
 
