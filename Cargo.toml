@@ -17,14 +17,14 @@ rune = ["dep:rune", "dep:anyhow"]
 [dependencies]
 rand = "0.8"
 anyhow = { version = "1.0", optional = true }
-itertools = { version = "0.12", optional = true }
-boa_engine = { version = "0.18.0", optional = true }
-boa_gc = { version = "0.18.0", optional = true }
-boa_runtime = { version = "0.18.0", optional = true }
-mlua = { version = "0.9.6", optional = true }
-rhai = { version = "1.17.1", optional = true }
-rquickjs = { version = "0.5.1", optional = true }
-rune = { version = "0.13.2", optional = true }
+itertools = { version = "0.13", optional = true }
+boa_engine = { version = "0.19.0", optional = true }
+boa_gc = { version = "0.19.0", optional = true }
+boa_runtime = { version = "0.19.0", optional = true }
+mlua = { version = "0.9.9", optional = true }
+rhai = { version = "1.19.0", optional = true }
+rquickjs = { version = "0.6.2", optional = true }
+rune = { version = "0.13.4", optional = true }
 
 [dev-dependencies]
 criterion = { version = "0.5" }
