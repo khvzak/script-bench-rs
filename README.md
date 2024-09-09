@@ -30,4 +30,4 @@ Simply run the `bench.py` script to generate images. It requires `cargo criterio
 
 ## Results
 
-![Sort Rust objects](Sort%20Rust%20objects.png)
+![Sort Rust objects](Sort%20Rust%20objects-2.png)
