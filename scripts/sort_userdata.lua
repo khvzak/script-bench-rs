@@ -7,18 +7,27 @@ local function generate_string(len)
 	return table.concat(data)
 end
 
+local function swap(t, i, j)
+	local temp = t[i]
+	t[i] = t[j]
+	t[j] = temp
+end
+
 local function partition(arr, lo, hi)
 	local pivot_idx = math.floor((lo + hi) / 2)
 	local pivot = arr[pivot_idx]
-	arr[pivot_idx], arr[hi] = arr[hi], arr[pivot_idx]
+	-- arr[pivot_idx], arr[hi] = arr[hi], arr[pivot_idx]
+	swap(arr, pivot_idx, hi)
 	local j = lo
 	for i = lo, hi - 1 do
 		if arr[i] < pivot then
-			arr[i], arr[j] = arr[j], arr[i]
+			-- arr[i], arr[j] = arr[j], arr[i]
+			swap(arr, i, j)
 			j = j + 1
 		end
 	end
-	arr[j], arr[hi] = arr[hi], arr[j]
+	-- arr[j], arr[hi] = arr[hi], arr[j]
+	swap(arr, j, hi)
 	return j
 end
 

@@ -7,6 +7,7 @@ The project goal is to benchmark most popular embedded scripting languages for R
 - [rhai](https://crates.io/crates/rhai)
 - [rquickjs](https://crates.io/crates/rquickjs)
 - [rune](https://crates.io/crates/rune)
+- [piccolo](https://github.com/kyren/piccolo)
 
 The benchmark is designed to cover not only the performance of code evaluation but interoperability with Rust too.
 
@@ -20,7 +21,8 @@ Simply run the `bench.py` script to generate images. It requires `cargo criterio
 |----------|-------------------------------|
 | OS       | Ubuntu 23.04, r6i.8xlarge     |
 | boa      | v0.19.0                       |
-| mlua     | v0.9.9                        |
+| mlua     | v0.10.0-beta.2                |
+| piccolo  | rev#fcbaabc                   |
 | rhai     | v1.19.0                       |
 | rquickjs | v0.6.2                        |
 | rune     | v0.13.4                       |
