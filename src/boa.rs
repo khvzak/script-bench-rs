@@ -7,6 +7,7 @@ use boa_engine::{
     Trace,
 };
 use boa_runtime::Console;
+use rand::Rng;
 
 #[derive(Clone, PartialEq, Eq, PartialOrd, Ord, Trace, Finalize, JsData)]
 struct RustData(Rc<str>);
@@ -64,7 +65,7 @@ pub fn sort_userdata(run: impl FnOnce(&mut dyn FnMut())) -> JsResult<()> {
         1,
         NativeFunction::from_fn_ptr(|_this, args, ctx| {
             let n = args[0].to_u32(ctx)?;
-            Ok((rand::random::<u32>() % n).into())
+            Ok(rand::thread_rng().gen_range(0..n).into())
         }),
     )?;
 

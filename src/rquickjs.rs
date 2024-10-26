@@ -1,5 +1,6 @@
 use std::rc::Rc;
 
+use rand::Rng;
 use rquickjs::class::{Class, ClassId, JsClass, Readable, Trace, Tracer};
 use rquickjs::function::{Constructor, This};
 use rquickjs::{Context, Ctx, FromJs, Function, IntoJs, Object, Result, Runtime, Value};
@@ -65,8 +66,8 @@ pub fn sort_userdata(run: impl FnOnce(&mut dyn FnMut())) -> Result<()> {
         // let print = Function::new(ctx.clone(), |s: String| println!("{s}"))?.with_name("print")?;
         // globals.set("print", print)?;
 
-        let rand =
-            Function::new(ctx.clone(), |n: u32| rand::random::<u32>() % n)?.with_name("rand")?;
+        let rand = Function::new(ctx.clone(), |n: u32| rand::thread_rng().gen_range(0..n))?
+            .with_name("rand")?;
         globals.set("rand", rand).unwrap();
 
         Class::<RustData>::define(&globals)?;

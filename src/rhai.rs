@@ -1,6 +1,7 @@
 use std::rc::Rc;
 
 use itertools::Itertools;
+use rand::Rng;
 use rhai::{Array, Engine};
 
 #[derive(Clone, PartialEq, Eq, PartialOrd, Ord)]
@@ -16,7 +17,7 @@ pub fn sort_userdata(run: impl FnOnce(&mut dyn FnMut())) -> anyhow::Result<()> {
         .register_fn("RustData_new", |s: &str| RustData(s.into()))
         .register_fn("to_string", |this: &mut RustData| this.0.to_string())
         .register_fn("<", |l: &mut RustData, r: RustData| *l < r)
-        .register_fn("rand", |n: i64| rand::random::<u32>() as i64 % n)
+        .register_fn("rand", |n: i64| rand::thread_rng().gen_range(0..n))
         .register_fn("concat", |items: Array| {
             items
                 .into_iter()

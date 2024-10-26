@@ -1,5 +1,6 @@
 use std::sync::Arc;
 
+use rand::Rng;
 use rune::runtime::Function;
 use rune::termcolor::{ColorChoice, StandardStream};
 use rune::{Any, Context, Diagnostics, Module, Source, Sources, Value, Vm};
@@ -26,7 +27,7 @@ impl RustData {
 
 #[rune::function]
 fn rand(n: u32) -> u32 {
-    rand::random::<u32>() % n
+    rand::thread_rng().gen_range(0..n)
 }
 
 #[rune::function]
@@ -34,7 +35,7 @@ fn concat(items: Vec<Value>) -> String {
     let mut output = String::new();
     for s in items {
         let s = s.into_string().unwrap();
-        output.push_str(&*s.borrow_ref().unwrap());
+        output.push_str(&s.borrow_ref().unwrap());
     }
     output
 }
