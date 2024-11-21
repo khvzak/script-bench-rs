@@ -1,9 +1,9 @@
 use std::rc::Rc;
 
 use rand::Rng;
-use rquickjs::class::{Class, ClassId, JsClass, Readable, Trace, Tracer};
+use rquickjs::class::{Class, JsClass, Readable, Trace, Tracer};
 use rquickjs::function::{Constructor, This};
-use rquickjs::{Context, Ctx, FromJs, Function, IntoJs, Object, Result, Runtime, Value};
+use rquickjs::{Context, Ctx, FromJs, Function, IntoJs, JsLifetime, Object, Result, Runtime, Value};
 
 #[derive(Clone, PartialEq, Eq, PartialOrd, Ord)]
 struct RustData(Rc<str>);
@@ -24,15 +24,14 @@ impl<'js> IntoJs<'js> for RustData {
     }
 }
 
+unsafe impl<'js> JsLifetime<'js> for RustData {
+    type Changed<'to> = RustData;
+}
+
 impl<'js> JsClass<'js> for RustData {
     const NAME: &'static str = "RustData";
 
     type Mutable = Readable;
-
-    fn class_id() -> &'static ClassId {
-        static ID: ClassId = ClassId::new();
-        &ID
-    }
 
     fn prototype(ctx: &Ctx<'js>) -> Result<Option<Object<'js>>> {
         let proto = Object::new(ctx.clone())?;
