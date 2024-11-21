@@ -13,6 +13,7 @@ mlua_lua54 = ["mlua/lua54", "mlua/vendored"]
 mlua_luau = ["mlua/luau-jit"]
 rhai = ["dep:rhai", "dep:itertools", "dep:anyhow"]
 rune = ["dep:rune", "dep:anyhow"]
+wasmi = ["dep:wasmi", "dep:wat", "dep:anyhow"]
 
 [dependencies]
 rand = "0.8"
@@ -25,6 +26,8 @@ mlua = { version = "0.10.1", optional = true }
 rhai = { version = "1.20.0", optional = true }
 rquickjs = { version = "0.8.1", optional = true }
 rune = { version = "0.13.4", optional = true }
+wasmi = { version = "0.39.1", optional = true }
+wat = { version = "1.220.0", optional = true }
 
 [dev-dependencies]
 criterion = { version = "0.5" }
@@ -61,3 +64,8 @@ required-features = ["rquickjs"]
 name = "rune"
 harness = false
 required-features = ["rune"]
+
+[[bench]]
+name = "wasmi"
+harness = false
+required-features = ["wasmi"]
