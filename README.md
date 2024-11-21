@@ -20,7 +20,7 @@ Simply run the `bench.py` script to generate images. It requires `cargo criterio
 |----------|-------------------------------|
 | OS       | Ubuntu 22.04, m6i.16xlarge    |
 | boa      | v0.19.1                       |
-| mlua     | v0.10.0                       |
+| mlua     | v0.10.1                       |
 | rhai     | v1.20.0                       |
 | rquickjs | v0.6.2                        |
 | rune     | v0.13.4                       |
