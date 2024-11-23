@@ -8,6 +8,7 @@ The project goal is to benchmark most popular embedded scripting languages for R
 - [rquickjs](https://crates.io/crates/rquickjs)
 - [rune](https://crates.io/crates/rune)
 - [wasmi](https://crates.io/crates/wasmi)
+- [wasmtime](https://crates.io/crates/wasmtime)
 
 The benchmark is designed to cover not only the performance of code evaluation but interoperability with Rust too.
 
@@ -27,6 +28,7 @@ Simply run the `bench.py` script to generate images. It requires `cargo criterio
 | rune     | v0.13.4                       |
 | rustc    | v1.81.0                       |
 | wasmi    | v0.39.1                       |
+| wasmtime | v27.0.0                       |
 
 ## Results
 

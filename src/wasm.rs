@@ -1,7 +1,11 @@
 use std::sync::Arc;
 
 use rand::Rng;
+#[cfg(feature = "wasmi")]
 use wasmi::*;
+#[cfg(feature = "wasmtime")]
+use wasmtime::*;
+#[cfg(feature = "wasmi")]
 use wat;
 
 #[derive(Clone, PartialEq, Eq, PartialOrd, Ord)]
@@ -9,8 +13,10 @@ struct RustData(Arc<str>);
 
 pub fn sort_userdata(run: impl FnOnce(&mut dyn FnMut())) -> anyhow::Result<()> {
     let engine = Engine::default();
-    let wasm = wat::parse_str(include_str!("../scripts/sort_userdata.wat"))?;
-    let module = Module::new(&engine, &mut &wasm[..])?;
+    let wat = include_str!("../scripts/sort_userdata.wat");
+    #[cfg(feature = "wasmi")]
+    let wat = wat::parse_str(&wat)?;
+    let module = Module::new(&engine, &wat)?;
 
     type HostState = Vec<RustData>;
     let mut store = Store::new(&engine, Vec::with_capacity(10_000));
@@ -44,16 +50,28 @@ pub fn sort_userdata(run: impl FnOnce(&mut dyn FnMut())) -> anyhow::Result<()> {
     });
 
     let mut linker = <Linker<HostState>>::new(&engine);
-    linker
-        .define("RustData", "new", rustdata_new)?
-        .define("RustData", "lt", rustdata_lt)?
-        .func_wrap("RustData", "rand", |n: i32| {
-            rand::thread_rng().gen_range(0..n)
-        })?
-        .define("RustData", "clear", rustdata_clear)?;
+    linker.func_wrap("RustData", "rand", |n: i32| {
+        rand::thread_rng().gen_range(0..n)
+    })?;
+    #[cfg(feature = "wasmtime")]
+    {
+        linker
+            .define(&store, "RustData", "new", rustdata_new)?
+            .define(&store, "RustData", "lt", rustdata_lt)?
+            .define(&store, "RustData", "clear", rustdata_clear)?;
+    }
+    #[cfg(feature = "wasmi")]
+    {
+        linker
+            .define("RustData", "new", rustdata_new)?
+            .define("RustData", "lt", rustdata_lt)?
+            .define("RustData", "clear", rustdata_clear)?;
+    }
 
-    let instance = linker.instantiate(&mut store, &module)?.start(&mut store)?;
-    let bench = instance.get_typed_func::<(), ()>(&store, "bench")?;
+    let instance = linker.instantiate(&mut store, &module)?;
+    #[cfg(feature = "wasmi")]
+    let instance = instance.start(&mut store)?;
+    let bench = instance.get_typed_func::<(), ()>(&mut store, "bench")?;
 
     run(&mut || bench.call(&mut store, ()).unwrap());
 

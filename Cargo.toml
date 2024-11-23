@@ -14,6 +14,7 @@ mlua_luau = ["mlua/luau-jit"]
 rhai = ["dep:rhai", "dep:itertools", "dep:anyhow"]
 rune = ["dep:rune", "dep:anyhow"]
 wasmi = ["dep:wasmi", "dep:wat", "dep:anyhow"]
+wasmtime = ["dep:wasmtime", "dep:anyhow"]
 
 [dependencies]
 rand = "0.8"
@@ -27,6 +28,7 @@ rhai = { version = "1.20.0", optional = true }
 rquickjs = { version = "0.8.1", optional = true }
 rune = { version = "0.13.4", optional = true }
 wasmi = { version = "0.39.1", optional = true }
+wasmtime = { version = "27.0.0", optional = true }
 wat = { version = "1.220.0", optional = true }
 
 [dev-dependencies]
@@ -69,3 +71,8 @@ required-features = ["rune"]
 name = "wasmi"
 harness = false
 required-features = ["wasmi"]
+
+[[bench]]
+name = "wasmtime"
+harness = false
+required-features = ["wasmtime"]
