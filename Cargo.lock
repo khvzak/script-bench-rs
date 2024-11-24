@@ -2017,7 +2017,6 @@ dependencies = [
  "rune",
  "wasmi",
  "wasmtime",
- "wat",
 ]
 
 [[package]]

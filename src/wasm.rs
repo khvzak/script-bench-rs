@@ -5,18 +5,14 @@ use rand::Rng;
 use wasmi::*;
 #[cfg(feature = "wasmtime")]
 use wasmtime::*;
-#[cfg(feature = "wasmi")]
-use wat;
 
 #[derive(Clone, PartialEq, Eq, PartialOrd, Ord)]
 struct RustData(Arc<str>);
 
 pub fn sort_userdata(run: impl FnOnce(&mut dyn FnMut())) -> anyhow::Result<()> {
     let engine = Engine::default();
-    let wat = include_str!("../scripts/sort_userdata.wat");
-    #[cfg(feature = "wasmi")]
-    let wat = wat::parse_str(&wat)?;
-    let module = Module::new(&engine, &wat)?;
+    let wasm = include_bytes!("../scripts/sort_userdata.wasm");
+    let module = Module::new(&engine, wasm)?;
 
     type HostState = Vec<RustData>;
     let mut store = Store::new(&engine, Vec::with_capacity(10_000));
