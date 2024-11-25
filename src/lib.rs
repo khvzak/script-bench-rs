@@ -8,3 +8,5 @@ pub mod rhai;
 pub mod rquickjs;
 #[cfg(feature = "rune")]
 pub mod rune;
+#[cfg(any(feature = "wasmi", feature = "wasmtime"))]
+pub mod wasm;
