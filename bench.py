@@ -53,6 +53,7 @@ for id in ids:
     ax.set_title("lower is better")
     ax.set_ylabel("time (ms)", fontweight="bold")
     ax.set_ylim(0, ymax * 1.2)
+    fig.autofmt_xdate()
     fig.suptitle(id, fontsize=18)
     fig.tight_layout()
 
