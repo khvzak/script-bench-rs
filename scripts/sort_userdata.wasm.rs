@@ -1,50 +1,37 @@
-#![no_std]
+#![cfg(target_arch = "wasm32")]
 #![no_main]
 
-#[panic_handler]
-fn panic(_info: &core::panic::PanicInfo) -> ! {
-    loop {}
-}
-
 #[link(wasm_import_module = "RustData")]
-extern "C" {
-    fn new(ptr: i32, len: i32) -> i32;
-    fn lt(ptr: i32, len: i32) -> i32;
-    fn clear() -> ();
-    fn rand(limit: i32) -> i32;
+unsafe extern "C" {
+    safe fn rustdata_new(ptr: u32, len: u32) -> u32;
+    safe fn rustdata_lt(this: u32, other: u32) -> u32;
+    safe fn rand(limit: u32) -> u32;
 }
 
 #[derive(Copy, Clone)]
-struct RustData(i32);
+struct RustData(u32);
 
 impl RustData {
     fn new(s: &str) -> Self {
-        RustData(unsafe { new(s.as_ptr() as i32, s.len() as i32) })
+        RustData(rustdata_new(s.as_ptr() as u32, s.len() as u32))
     }
+
     fn lt(self, other: Self) -> bool {
-        unsafe { lt(self.0, other.0) != 0 }
-    }
-    fn clear() {
-        unsafe { clear() }
-    }
-    fn rand(n: i32) -> i32 {
-        unsafe { rand(n) }
+        rustdata_lt(self.0, other.0) != 0
     }
 }
 
-fn generate_string(buf: &mut [u8; 32]) -> &str {
-    let charset = b"0123456789abcdef";
-    let len = (RustData::rand(16) + 8) as usize & 31;
-    for b in &mut buf[..len] {
-        *b = charset[RustData::rand(16) as usize & 15]
-    }
-    // SAFETY: charset only contains single-byte codepoints
-    unsafe { core::str::from_utf8_unchecked(&buf[..len]) }
+static CHARSET: &[u8] = b"0123456789abcdef";
+
+fn generate_string(len: usize) -> String {
+    (0..len)
+        .map(|_| CHARSET[rand(CHARSET.len() as u32) as usize] as char)
+        .collect()
 }
 
 fn partition(arr: &mut [RustData]) -> usize {
     let (lo, hi) = (0, arr.len() - 1);
-    let pivot_idx = (lo + hi) >> 1;
+    let pivot_idx = (lo + hi) / 2;
     let pivot = arr[pivot_idx];
     arr.swap(pivot_idx, hi);
     let mut j = lo;
@@ -69,10 +56,8 @@ fn quicksort(mut arr: &mut [RustData]) {
 
 #[no_mangle]
 pub fn bench() {
-    RustData::clear();
-    let mut array = [(); 10_000].map(|_| {
-        let mut buf = [0; 32];
-        RustData::new(generate_string(&mut buf))
-    });
-    quicksort(&mut array[..]);
+    let mut array = (0..10_000)
+        .map(|_| RustData::new(&generate_string(rand(16) as usize + 8)))
+        .collect::<Vec<_>>();
+    quicksort(&mut array);
 }

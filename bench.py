@@ -23,6 +23,13 @@ def run_benchmark(name):
     return res
 
 
+# Compile webassembly modules
+subprocess.run(
+    "rustc --target wasm32-unknown-unknown -Cpanic=abort -O --crate-name sort_userdata scripts/sort_userdata.wasm.rs -o scripts/sort_userdata.wasm",
+    shell=True,
+    check=True,
+)
+
 benches = dict()
 ids = set()
 for f in glob.glob("benches/*.rs"):
