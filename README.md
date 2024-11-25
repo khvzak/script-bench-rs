@@ -16,17 +16,19 @@ The benchmark is designed to cover not only the performance of code evaluation b
 
 Simply run the `bench.py` script to generate images. It requires `cargo criterion` and `python3-matplotlib` package installed.
 
+You also must have `wasm32-unknown-unknown` target installed for webassembly benchmarks.
+
 ## Environment
 
 |          |                               |
 |----------|-------------------------------|
 | OS       | Ubuntu 22.04, m6i.16xlarge    |
+| rustc    | v1.82.0                       |
 | boa      | v0.19.1                       |
 | mlua     | v0.10.1                       |
 | rhai     | v1.20.0                       |
 | rquickjs | v0.8.1                        |
 | rune     | v0.13.4                       |
-| rustc    | v1.81.0                       |
 | wasmi    | v0.39.1                       |
 | wasmtime | v27.0.0                       |
 
