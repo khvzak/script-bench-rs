@@ -4,6 +4,7 @@
 #[link(wasm_import_module = "RustData")]
 unsafe extern "C" {
     safe fn rustdata_new(ptr: u32, len: u32) -> u32;
+    safe fn rustdata_delete(id: u32) -> ();
     safe fn rustdata_lt(this: u32, other: u32) -> u32;
     safe fn rand(limit: u32) -> u32;
 }
@@ -17,6 +18,12 @@ impl RustData {
 
     fn lt(&self, other: &Self) -> bool {
         rustdata_lt(self.0, other.0) != 0
+    }
+}
+
+impl Drop for RustData {
+    fn drop(&mut self) {
+        rustdata_delete(self.0);
     }
 }
 
