@@ -1,4 +1,4 @@
-use std::sync::Arc;
+use std::rc::Rc;
 
 use rand::Rng;
 #[cfg(feature = "wasmi")]
@@ -7,7 +7,7 @@ use wasmi::*;
 use wasmtime::*;
 
 #[derive(Clone, PartialEq, Eq, PartialOrd, Ord)]
-struct RustData(Arc<str>);
+struct RustData(Rc<str>);
 
 type HostState = Vec<RustData>;
 
