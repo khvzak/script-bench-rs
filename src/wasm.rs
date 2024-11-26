@@ -11,22 +11,32 @@ struct RustData(Rc<str>);
 
 #[derive(Default)]
 struct HostState {
-    store: Vec<RustData>,
+    store: Vec<Option<RustData>>,
+    free: Vec<u32>,
     memory: Option<Memory>,
 }
 
 impl HostState {
     fn alloc(&mut self, rd: RustData) -> u32 {
-        self.store.push(rd);
+        if let Some(id) = self.free.pop() {
+            self.store[id as usize] = Some(rd);
+            return id;
+        }
+        self.store.push(Some(rd));
         self.store.len() as u32 - 1
     }
 
-    fn get(&self, id: u32) -> &RustData {
-        &self.store[id as usize]
+    fn dealloc(&mut self, id: u32) {
+        let _ = self.store[id as usize].take().expect("double free");
+        self.free.push(id);
     }
 
-    fn clear(&mut self) {
-        self.store.clear();
+    fn get(&self, id: u32) -> &RustData {
+        self.store[id as usize].as_ref().expect("use after free")
+    }
+
+    fn is_empty(&self) -> bool {
+        self.store.len() == self.free.len()
     }
 }
 
@@ -45,6 +55,12 @@ pub fn sort_userdata(run: impl FnOnce(&mut dyn FnMut())) -> anyhow::Result<()> {
             caller.data_mut().alloc(rd)
         },
     );
+    let rustdata_delete = Func::wrap(
+        &mut store,
+        |mut caller: Caller<'_, HostState>, id: u32| -> () {
+            caller.data_mut().dealloc(id);
+        },
+    );
     let rustdata_lt = Func::wrap(
         &mut store,
         |caller: Caller<'_, HostState>, i: u32, j: u32| -> u32 {
@@ -61,12 +77,14 @@ pub fn sort_userdata(run: impl FnOnce(&mut dyn FnMut())) -> anyhow::Result<()> {
     {
         linker
             .define(&store, "RustData", "rustdata_new", rustdata_new)?
+            .define(&store, "RustData", "rustdata_delete", rustdata_delete)?
             .define(&store, "RustData", "rustdata_lt", rustdata_lt)?;
     }
     #[cfg(feature = "wasmi")]
     {
         linker
             .define("RustData", "rustdata_new", rustdata_new)?
+            .define("RustData", "rustdata_delete", rustdata_delete)?
             .define("RustData", "rustdata_lt", rustdata_lt)?;
     }
 
@@ -78,7 +96,7 @@ pub fn sort_userdata(run: impl FnOnce(&mut dyn FnMut())) -> anyhow::Result<()> {
 
     run(&mut || {
         bench.call(&mut store, ()).unwrap();
-        store.data_mut().clear();
+        assert!(store.data().is_empty());
     });
 
     Ok(())
