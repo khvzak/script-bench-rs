@@ -9,34 +9,47 @@ use wasmtime::*;
 #[derive(Clone, PartialEq, Eq, PartialOrd, Ord)]
 struct RustData(Rc<str>);
 
-type HostState = Vec<RustData>;
+#[derive(Default)]
+struct HostState {
+    store: Vec<RustData>,
+    memory: Option<Memory>,
+}
+
+impl HostState {
+    fn alloc(&mut self, rd: RustData) -> u32 {
+        self.store.push(rd);
+        self.store.len() as u32 - 1
+    }
+
+    fn get(&self, id: u32) -> &RustData {
+        &self.store[id as usize]
+    }
+
+    fn clear(&mut self) {
+        self.store.clear();
+    }
+}
 
 pub fn sort_userdata(run: impl FnOnce(&mut dyn FnMut())) -> anyhow::Result<()> {
     let engine = Engine::default();
     let wasm = include_bytes!("../scripts/sort_userdata.wasm");
     let module = Module::new(&engine, wasm)?;
 
-    let mut store = Store::new(&engine, Vec::new());
+    let mut store = Store::new(&engine, Default::default());
     let rustdata_new = Func::wrap(
         &mut store,
         |mut caller: Caller<'_, HostState>, off: u32, len: u32| -> u32 {
-            let buffer = {
-                let mut buffer = vec![0; len as usize];
-                let memory = caller.get_export("memory").unwrap().into_memory().unwrap();
-                memory.read(&caller, off as usize, &mut buffer).unwrap();
-                buffer
-            };
-            caller
-                .data_mut()
-                .push(RustData(std::str::from_utf8(&buffer).unwrap().into()));
-            caller.data().len() as u32 - 1
+            let buffer =
+                &caller.data().memory.unwrap().data(&mut caller)[off as usize..][..len as usize];
+            let rd = RustData(std::str::from_utf8(buffer).unwrap().into());
+            caller.data_mut().alloc(rd)
         },
     );
     let rustdata_lt = Func::wrap(
         &mut store,
         |caller: Caller<'_, HostState>, i: u32, j: u32| -> u32 {
             let data = caller.data();
-            (data[i as usize] < data[j as usize]) as u32
+            (data.get(i) < data.get(j)) as u32
         },
     );
 
@@ -60,6 +73,7 @@ pub fn sort_userdata(run: impl FnOnce(&mut dyn FnMut())) -> anyhow::Result<()> {
     let instance = linker.instantiate(&mut store, &module)?;
     #[cfg(feature = "wasmi")]
     let instance = instance.start(&mut store)?;
+    store.data_mut().memory = instance.get_memory(&mut store, "memory");
     let bench = instance.get_typed_func::<(), ()>(&mut store, "bench")?;
 
     run(&mut || {
