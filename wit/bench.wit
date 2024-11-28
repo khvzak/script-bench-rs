@@ -1,0 +1,14 @@
+package component:bench;
+
+interface types {
+    resource rust-data {
+        constructor(s: string);
+        lt: func(other: borrow<rust-data>) -> bool;
+    }
+}
+
+world bench {
+    import types;
+    import rand: func(limit: u32) -> u32;
+    export bench: func();
+}

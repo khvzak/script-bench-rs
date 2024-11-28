@@ -30,6 +30,14 @@ subprocess.run(
     check=True,
 )
 
+# Compile webassembly components
+subprocess.run(
+    "cargo build --target wasm32-wasip2 --release",
+    cwd="bench",
+    shell=True,
+    check=True,
+)
+
 benches = dict()
 ids = set()
 for f in glob.glob("benches/*.rs"):
