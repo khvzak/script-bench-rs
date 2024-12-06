@@ -4,11 +4,11 @@
 #[link(wasm_import_module = "RustData")]
 unsafe extern "C" {
     safe fn rustdata_new(ptr: u32, len: u32) -> u32;
+    safe fn rustdata_delete(id: u32) -> ();
     safe fn rustdata_lt(this: u32, other: u32) -> u32;
     safe fn rand(limit: u32) -> u32;
 }
 
-#[derive(Copy, Clone)]
 struct RustData(u32);
 
 impl RustData {
@@ -16,8 +16,14 @@ impl RustData {
         RustData(rustdata_new(s.as_ptr() as u32, s.len() as u32))
     }
 
-    fn lt(self, other: Self) -> bool {
+    fn lt(&self, other: &Self) -> bool {
         rustdata_lt(self.0, other.0) != 0
+    }
+}
+
+impl Drop for RustData {
+    fn drop(&mut self) {
+        rustdata_delete(self.0);
     }
 }
 
@@ -32,8 +38,8 @@ fn generate_string(len: usize) -> String {
 fn partition(arr: &mut [RustData]) -> usize {
     let (lo, hi) = (0, arr.len() - 1);
     let pivot_idx = (lo + hi) / 2;
-    let pivot = arr[pivot_idx];
     arr.swap(pivot_idx, hi);
+    let Some((pivot, arr)) = arr.split_last_mut() else { return 0 };
     let mut j = lo;
     for i in lo..hi {
         if arr[i].lt(pivot) {
@@ -41,7 +47,9 @@ fn partition(arr: &mut [RustData]) -> usize {
             j += 1;
         }
     }
-    arr.swap(j, hi);
+    if let Some(arr_j) = arr.get_mut(j) {
+        std::mem::swap(arr_j, pivot);
+    }
     j
 }
 
