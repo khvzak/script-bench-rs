@@ -1,6 +1,6 @@
 local charset = { "0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "a", "b", "c", "d", "e", "f" }
 local function generate_string(len)
-	local data = {}
+	local data = table.create(len)
 	for _ = 1, len do
 		table.insert(data, charset[rand(#charset) + 1])
 	end

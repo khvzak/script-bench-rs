@@ -1,6 +1,6 @@
 const charset = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "a", "b", "c", "d", "e", "f"];
 function generate_string(len) {
-    let data = [];
+    let data = new Array(len);
     for (let i = 0; i < len; i++) {
         data.push(charset[rand(charset.length)]);
     }

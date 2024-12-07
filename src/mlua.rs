@@ -34,6 +34,15 @@ pub fn sort_userdata(run: impl FnOnce(&mut dyn FnMut())) -> Result<()> {
         lua.set_compiler(mlua::Compiler::new().set_optimization_level(2));
     }
 
+    #[cfg(feature = "mlua_lua54")]
+    {
+        let table = lua.globals().get::<mlua::Table>("table")?;
+        table.set(
+            "create",
+            lua.create_function(|lua, narr: usize| lua.create_table_with_capacity(narr, 0))?,
+        )?;
+    }
+
     lua.load(include_str!("../scripts/sort_userdata.lua"))
         .exec()?;
 
