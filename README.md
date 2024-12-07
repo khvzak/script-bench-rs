@@ -23,13 +23,13 @@ You also must have `wasm32-unknown-unknown` target installed for webassembly ben
 |          |                               |
 |----------|-------------------------------|
 | OS       | Ubuntu 22.04, m6i.16xlarge    |
-| rustc    | v1.82.0                       |
+| rustc    | v1.83.0                       |
 | boa      | v0.19.1                       |
-| mlua     | v0.10.1                       |
+| mlua     | v0.10.2                       |
 | rhai     | v1.20.0                       |
 | rquickjs | v0.8.1                        |
 | rune     | v0.13.4                       |
-| wasmi    | v0.39.1                       |
+| wasmi    | v0.40.0                       |
 | wasmtime | v27.0.0                       |
 
 ## Results
