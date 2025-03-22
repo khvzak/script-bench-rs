@@ -24,16 +24,16 @@ You also must have `wasm32-unknown-unknown` target installed for webassembly ben
 |----------|-------------------------------|
 | OS       | Ubuntu 22.04, m6i.16xlarge    |
 | rustc    | v1.83.0                       |
-| boa      | v0.19.1                       |
-| mlua     | v0.10.2                       |
-| rhai     | v1.20.0                       |
-| rquickjs | v0.8.1                        |
+| boa      | v0.20.0                       |
+| mlua     | v0.10.3                       |
+| rhai     | v1.21.0                       |
+| rquickjs | v0.9.0                        |
 | rune     | v0.13.4                       |
-| wasmi    | v0.40.0                       |
-| wasmtime | v27.0.0                       |
+| wasmi    | v0.42.0                       |
+| wasmtime | v31.0.0                       |
 
 ## Results
 
 ![Sort Rust objects](Sort%20Rust%20objects.png)
 
-[//]: # 1733534949
+Rev 1742649567

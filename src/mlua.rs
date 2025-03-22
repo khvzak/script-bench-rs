@@ -25,7 +25,7 @@ pub fn sort_userdata(run: impl FnOnce(&mut dyn FnMut())) -> Result<()> {
     globals.set("RustData", lua.create_proxy::<RustData>()?)?;
     globals.set(
         "rand",
-        Function::wrap(|n: u32| Ok(rand::thread_rng().gen_range(0..n))),
+        Function::wrap(|n: u32| Ok(rand::rng().random_range(0..n))),
     )?;
 
     #[cfg(feature = "mlua_luau")]

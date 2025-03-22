@@ -17,18 +17,18 @@ wasmi = ["dep:wasmi", "dep:anyhow"]
 wasmtime = ["dep:wasmtime", "dep:anyhow"]
 
 [dependencies]
-rand = "0.8"
+rand = "0.9"
 anyhow = { version = "1.0", optional = true }
-itertools = { version = "0.13", optional = true }
+itertools = { version = "0.14", optional = true }
 boa_engine = { version = "0.20.0", optional = true }
 boa_gc = { version = "0.20.0", optional = true }
 boa_runtime = { version = "0.20.0", optional = true }
-mlua = { version = "0.10.2", optional = true }
-rhai = { version = "1.20.0", optional = true }
-rquickjs = { version = "0.8.1", optional = true }
+mlua = { version = "0.10.3", optional = true }
+rhai = { version = "1.21.0", optional = true }
+rquickjs = { version = "0.9.0", optional = true }
 rune = { version = "0.13.4", optional = true }
-wasmi = { version = "0.40.0", optional = true }
-wasmtime = { version = "27.0.0", optional = true }
+wasmi = { version = "0.42.1", optional = true }
+wasmtime = { version = "31.0.0", optional = true }
 
 [dev-dependencies]
 criterion = { version = "0.5" }

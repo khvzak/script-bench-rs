@@ -65,7 +65,7 @@ pub fn sort_userdata(run: impl FnOnce(&mut dyn FnMut())) -> JsResult<()> {
         1,
         NativeFunction::from_fn_ptr(|_this, args, ctx| {
             let n = args[0].to_u32(ctx)?;
-            Ok(rand::thread_rng().gen_range(0..n).into())
+            Ok(rand::rng().random_range(0..n).into())
         }),
     )?;
 

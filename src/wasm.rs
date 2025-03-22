@@ -83,9 +83,7 @@ pub fn sort_userdata(run: impl FnOnce(&mut dyn FnMut())) -> anyhow::Result<()> {
     );
 
     let mut linker = <Linker<HostState>>::new(&engine);
-    linker.func_wrap("RustData", "rand", |n: u32| {
-        rand::thread_rng().gen_range(0..n)
-    })?;
+    linker.func_wrap("RustData", "rand", |n: u32| rand::rng().random_range(0..n))?;
     #[cfg(feature = "wasmtime")]
     {
         linker

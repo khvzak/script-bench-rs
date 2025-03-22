@@ -27,7 +27,7 @@ impl RustData {
 
 #[rune::function]
 fn rand(n: u32) -> u32 {
-    rand::thread_rng().gen_range(0..n)
+    rand::rng().random_range(0..n)
 }
 
 #[rune::function]

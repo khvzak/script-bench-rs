@@ -3,7 +3,9 @@ use std::rc::Rc;
 use rand::Rng;
 use rquickjs::class::{Class, JsClass, Readable, Trace, Tracer};
 use rquickjs::function::{Constructor, This};
-use rquickjs::{Context, Ctx, FromJs, Function, IntoJs, JsLifetime, Object, Result, Runtime, Value};
+use rquickjs::{
+    Context, Ctx, FromJs, Function, IntoJs, JsLifetime, Object, Result, Runtime, Value,
+};
 
 #[derive(Clone, PartialEq, Eq, PartialOrd, Ord)]
 struct RustData(Rc<str>);
@@ -65,7 +67,7 @@ pub fn sort_userdata(run: impl FnOnce(&mut dyn FnMut())) -> Result<()> {
         // let print = Function::new(ctx.clone(), |s: String| println!("{s}"))?.with_name("print")?;
         // globals.set("print", print)?;
 
-        let rand = Function::new(ctx.clone(), |n: u32| rand::thread_rng().gen_range(0..n))?
+        let rand = Function::new(ctx.clone(), |n: u32| rand::rng().random_range(0..n))?
             .with_name("rand")?;
         globals.set("rand", rand).unwrap();
 
