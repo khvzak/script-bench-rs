@@ -9,6 +9,7 @@ generate_string = |len|
 partition = |arr, lo, hi|
     pivot_idx = ((lo + hi) / 2).floor()
     pivot = arr[pivot_idx]
+    arr[pivot_idx], arr[hi] = arr[hi], arr[pivot_idx]
     j = lo
     for i in lo..hi
         if arr[i] < pivot
