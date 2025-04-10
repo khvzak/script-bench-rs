@@ -1,9 +1,10 @@
-use anyhow::{bail, Result};
-use koto::{derive::*, prelude::*, runtime};
 use std::rc::Rc;
 
-#[derive(Clone, PartialEq, Eq, PartialOrd, Ord, KotoCopy, KotoType)]
-struct RustData(Rc<str>);
+use anyhow::{bail, Result};
+use koto::{derive::*, prelude::*, runtime};
+
+#[derive(Default, Debug, Clone, PartialEq, Eq, PartialOrd, Ord, KotoCopy, KotoType)]
+pub struct RustData(pub Rc<str>);
 
 #[koto_impl]
 impl RustData {
@@ -29,7 +30,10 @@ impl KotoObject for RustData {
     }
 }
 
-pub fn sort_userdata(run: impl FnOnce(&mut dyn FnMut())) -> Result<()> {
+pub fn sort_userdata(
+    run: impl FnOnce(&mut dyn FnMut()),
+    validate: impl FnOnce(KValue),
+) -> Result<()> {
     let mut engine = Koto::default();
     let prelude = engine.prelude();
 
@@ -51,6 +55,7 @@ pub fn sort_userdata(run: impl FnOnce(&mut dyn FnMut())) -> Result<()> {
         bail!("Missing bench function");
     };
 
+    validate(engine.call_function(bench.clone(), &[]).unwrap());
     run(&mut || {
         engine.call_function(bench.clone(), &[]).unwrap();
     });

@@ -43,4 +43,5 @@ function bench() {
         array.push(new RustData(generate_string(8 + rand(16))));
     }
     quicksort(array, 0, array.length - 1);
+    return array;
 }

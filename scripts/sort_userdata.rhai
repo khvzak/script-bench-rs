@@ -42,3 +42,4 @@ for i in 0..10000 {
     array.push(RustData_new(generate_string.call(8 + rand(16))));
 }
 array.quicksort(0, array.len - 1);
+return array;

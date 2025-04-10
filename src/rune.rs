@@ -5,8 +5,8 @@ use rune::runtime::Function;
 use rune::termcolor::{ColorChoice, StandardStream};
 use rune::{Any, Context, Diagnostics, Module, Source, Sources, Value, Vm};
 
-#[derive(Any, Clone, PartialEq, Eq, PartialOrd, Ord)]
-struct RustData(Arc<str>);
+#[derive(Any, Default, Clone, PartialEq, Eq, PartialOrd, Ord)]
+pub struct RustData(Arc<str>);
 
 impl RustData {
     #[rune::function(path = Self::new)]
@@ -40,7 +40,10 @@ fn concat(items: Vec<Value>) -> String {
     output
 }
 
-pub fn sort_userdata(run: impl FnOnce(&mut dyn FnMut())) -> anyhow::Result<()> {
+pub fn sort_userdata(
+    run: impl FnOnce(&mut dyn FnMut()),
+    validate: impl FnOnce(Value),
+) -> anyhow::Result<()> {
     let mut context = Context::with_default_modules()?;
 
     let mut module = Module::default();
@@ -71,8 +74,9 @@ pub fn sort_userdata(run: impl FnOnce(&mut dyn FnMut())) -> anyhow::Result<()> {
     let output = vm.call(["main"], ())?;
     let bench: Function = rune::from_value(output)?;
 
+    validate(bench.call::<_, Value>(()).unwrap());
     run(&mut || {
-        bench.call::<_, ()>(()).unwrap();
+        bench.call::<_, Value>(()).unwrap();
     });
 
     Ok(())

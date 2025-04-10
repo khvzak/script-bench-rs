@@ -4,11 +4,11 @@ use rand::Rng;
 use rquickjs::class::{Class, JsClass, Readable, Trace, Tracer};
 use rquickjs::function::{Constructor, This};
 use rquickjs::{
-    Context, Ctx, FromJs, Function, IntoJs, JsLifetime, Object, Result, Runtime, Value,
+    Array, Context, Ctx, FromJs, Function, IntoJs, JsLifetime, Object, Result, Runtime, Value,
 };
 
-#[derive(Clone, PartialEq, Eq, PartialOrd, Ord)]
-struct RustData(Rc<str>);
+#[derive(Default, Clone, PartialEq, Eq, PartialOrd, Ord)]
+pub struct RustData(Rc<str>);
 
 impl<'js> Trace<'js> for RustData {
     fn trace<'a>(&self, _tracer: Tracer<'a, 'js>) {}
@@ -57,15 +57,15 @@ impl<'js> JsClass<'js> for RustData {
     }
 }
 
-pub fn sort_userdata(run: impl FnOnce(&mut dyn FnMut())) -> Result<()> {
+pub fn sort_userdata(
+    run: impl FnOnce(&mut dyn FnMut()),
+    validate: impl FnOnce(Array),
+) -> Result<()> {
     let rt = Runtime::new()?;
     let context = Context::full(&rt)?;
 
     context.with(|ctx| {
         let globals = ctx.globals();
-
-        // let print = Function::new(ctx.clone(), |s: String| println!("{s}"))?.with_name("print")?;
-        // globals.set("print", print)?;
 
         let rand = Function::new(ctx.clone(), |n: u32| rand::rng().random_range(0..n))?
             .with_name("rand")?;
@@ -76,6 +76,8 @@ pub fn sort_userdata(run: impl FnOnce(&mut dyn FnMut())) -> Result<()> {
         ctx.eval::<(), _>(include_str!("../scripts/sort_userdata.js"))?;
 
         let func = globals.get::<_, Function>("bench")?;
+
+        validate(func.call::<_, Array>(())?);
         run(&mut || func.call::<_, ()>(()).unwrap());
 
         Ok(())

@@ -4,10 +4,13 @@ use itertools::Itertools;
 use rand::Rng;
 use rhai::{Array, Engine};
 
-#[derive(Clone, PartialEq, Eq, PartialOrd, Ord)]
-struct RustData(Rc<str>);
+#[derive(Default, Clone, PartialEq, Eq, PartialOrd, Ord)]
+pub struct RustData(Rc<str>);
 
-pub fn sort_userdata(run: impl FnOnce(&mut dyn FnMut())) -> anyhow::Result<()> {
+pub fn sort_userdata(
+    run: impl FnOnce(&mut dyn FnMut()),
+    validate: impl FnOnce(Array),
+) -> anyhow::Result<()> {
     let mut engine = Engine::new();
     engine.set_max_call_levels(1000);
     engine.set_max_expr_depths(0, 0);
@@ -27,7 +30,10 @@ pub fn sort_userdata(run: impl FnOnce(&mut dyn FnMut())) -> anyhow::Result<()> {
 
     let ast = engine.compile(include_str!("../scripts/sort_userdata.rhai"))?;
 
-    run(&mut || engine.eval_ast::<()>(&ast).unwrap());
+    validate(engine.eval_ast::<Array>(&ast).unwrap());
+    run(&mut || {
+        engine.eval_ast::<Array>(&ast).unwrap();
+    });
 
     Ok(())
 }

@@ -37,4 +37,5 @@ function bench()
 		table.insert(array, RustData.new(generate_string(8 + rand(16))))
 	end
 	quicksort(array, 1, #array)
+	return array
 end

@@ -29,3 +29,4 @@ export bench = ||
     for _ in 0..10000
         array.push RustData_new generate_string(8 + rand(16))
     quicksort array, 0, (array.count() - 1)
+    array

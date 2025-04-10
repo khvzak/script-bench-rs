@@ -44,6 +44,7 @@ pub fn main() {
             array.push(RustData::new(generate_string(8 + rand(16))));
         }
         quicksort(array, 0, array.len() - 1);
+        array
     };
 
     bench

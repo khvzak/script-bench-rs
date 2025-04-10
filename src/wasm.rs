@@ -7,7 +7,7 @@ use wasmi::*;
 use wasmtime::*;
 
 #[derive(Clone, PartialEq, Eq, PartialOrd, Ord)]
-struct RustData(Rc<str>);
+pub struct RustData(Rc<str>);
 
 #[derive(Default)]
 struct HostState {
@@ -53,7 +53,10 @@ impl HostState {
     }
 }
 
-pub fn sort_userdata(run: impl FnOnce(&mut dyn FnMut())) -> anyhow::Result<()> {
+pub fn sort_userdata(
+    run: impl FnOnce(&mut dyn FnMut()),
+    validate: impl FnOnce(Vec<RustData>),
+) -> anyhow::Result<()> {
     let engine = Engine::default();
     let wasm = include_bytes!("../scripts/sort_userdata.wasm");
     let module = Module::new(&engine, wasm)?;
@@ -103,9 +106,22 @@ pub fn sort_userdata(run: impl FnOnce(&mut dyn FnMut())) -> anyhow::Result<()> {
     #[cfg(feature = "wasmi")]
     let instance = instance.start(&mut store)?;
     store.data_mut().memory = instance.get_memory(&mut store, "memory");
-    let bench = instance.get_typed_func::<(), ()>(&mut store, "bench")?;
+    let bench = instance.get_typed_func::<u32, u32>(&mut store, "bench")?;
+    let get_id = instance.get_typed_func::<u32, u32>(&mut store, "get_id")?;
 
-    run(&mut || bench.call(&mut store, ()).unwrap());
+    // Run the benchmark once to get the result for validation
+    let length = bench.call(&mut store, 1)?;
+    let result = (0..length)
+        .map(|i| {
+            let id = get_id.call(&mut store, i)?;
+            Ok(store.data().get(id).clone())
+        })
+        .collect::<Result<Vec<_>, Error>>()?;
+    validate(result);
+
+    run(&mut || {
+        bench.call(&mut store, 0).unwrap();
+    });
 
     Ok(())
 }

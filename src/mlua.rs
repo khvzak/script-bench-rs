@@ -1,12 +1,13 @@
 use std::rc::Rc;
 
 use mlua::{
-    Function, Lua, MetaMethod, Result, String as LuaString, UserData, UserDataMethods, UserDataRef,
+    Function, Lua, MetaMethod, Result, String as LuaString, Table, UserData, UserDataMethods,
+    UserDataRef,
 };
 use rand::Rng;
 
-#[derive(Clone, PartialEq, Eq, PartialOrd, Ord)]
-struct RustData(Rc<str>);
+#[derive(Default, Clone, PartialEq, Eq, PartialOrd, Ord)]
+pub struct RustData(Rc<str>);
 
 impl UserData for RustData {
     fn add_methods<M: UserDataMethods<Self>>(methods: &mut M) {
@@ -18,7 +19,10 @@ impl UserData for RustData {
     }
 }
 
-pub fn sort_userdata(run: impl FnOnce(&mut dyn FnMut())) -> Result<()> {
+pub fn sort_userdata(
+    run: impl FnOnce(&mut dyn FnMut()),
+    validate: impl FnOnce(Table),
+) -> Result<()> {
     let lua = Lua::new();
 
     let globals = lua.globals();
@@ -48,6 +52,7 @@ pub fn sort_userdata(run: impl FnOnce(&mut dyn FnMut())) -> Result<()> {
 
     let func = lua.globals().get::<Function>("bench")?;
 
+    validate(func.call(())?);
     run(&mut || func.call::<()>(()).unwrap());
 
     Ok(())

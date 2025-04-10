@@ -9,8 +9,8 @@ use boa_engine::{
 use boa_runtime::Console;
 use rand::Rng;
 
-#[derive(Clone, PartialEq, Eq, PartialOrd, Ord, Trace, Finalize, JsData)]
-struct RustData(Rc<str>);
+#[derive(Default, Clone, PartialEq, Eq, PartialOrd, Ord, Trace, Finalize, JsData)]
+pub struct RustData(Rc<str>);
 
 impl Class for RustData {
     const NAME: &'static str = "RustData";
@@ -53,7 +53,10 @@ impl Class for RustData {
     }
 }
 
-pub fn sort_userdata(run: impl FnOnce(&mut dyn FnMut())) -> JsResult<()> {
+pub fn sort_userdata(
+    run: impl FnOnce(&mut dyn FnMut()),
+    validate: impl FnOnce(JsValue, &mut Context),
+) -> JsResult<()> {
     let mut context = Context::default();
 
     let console = Console::init(&mut context);
@@ -76,6 +79,7 @@ pub fn sort_userdata(run: impl FnOnce(&mut dyn FnMut())) -> JsResult<()> {
     let bench_val = globals.get(js_string!("bench"), &mut context)?;
     let bench_fn = bench_val.as_callable().unwrap();
 
+    validate(bench_fn.call(&bench_val, &[], &mut context)?, &mut context);
     run(&mut || {
         bench_fn.call(&bench_val, &[], &mut context).unwrap();
     });
