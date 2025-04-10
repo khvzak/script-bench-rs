@@ -38,4 +38,4 @@ You also must have `wasm32-unknown-unknown` target installed for webassembly ben
 
 ![Sort Rust objects](Sort%20Rust%20objects.png)
 
-Rev 1742649567
+Rev 1744299507
