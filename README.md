@@ -23,8 +23,8 @@ You also must have `wasm32-unknown-unknown` target installed for webassembly ben
 
 |          |                               |
 |----------|-------------------------------|
-| OS       | Ubuntu 22.04, m6i.16xlarge    |
-| rustc    | v1.86.0                       |
+| OS       | Ubuntu 25.04, m6i.16xlarge    |
+| rustc    | v1.87.0                       |
 | boa      | v0.20.0                       |
 | koto     | v0.15.3                       |
 | mlua     | v0.10.5                       |
@@ -38,4 +38,4 @@ You also must have `wasm32-unknown-unknown` target installed for webassembly ben
 
 ![Sort Rust objects](Sort%20Rust%20objects.png)
 
-Rev 1744324713
+Rev 1749581442
