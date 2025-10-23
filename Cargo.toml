@@ -25,7 +25,7 @@ itertools = { version = "0.14", optional = true }
 boa_engine = { version = "0.21.0", optional = true }
 boa_gc = { version = "0.21.0", optional = true }
 boa_runtime = { version = "0.21.0", optional = true }
-koto = { version = "0.15.3", optional = true }
+koto = { version = "0.16.0", optional = true }
 mlua = { version = "0.11.4", optional = true }
 rhai = { version = "1.23.4", optional = true }
 roto = { version = "0.8.0", optional = true, default-features = false }
