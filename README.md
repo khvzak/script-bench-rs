@@ -23,8 +23,8 @@ You also must have `wasm32-unknown-unknown` target installed for webassembly ben
 
 |          |                               |
 |----------|-------------------------------|
-| OS       | MacOS 15.5 M1                 |
-| rustc    | v1.87.0                       |
+| OS       | MacOS 15.7 M3 Pro             |
+| rustc    | v1.90.0                       |
 | boa      | v0.21.0                       |
 | koto     | v0.16.0                       |
 | mlua     | v0.11.4                       |
@@ -38,4 +38,4 @@ You also must have `wasm32-unknown-unknown` target installed for webassembly ben
 
 ![Sort Rust objects](Sort%20Rust%20objects.png)
 
-Rev 1749581442
+Rev 1761254182
