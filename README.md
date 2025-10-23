@@ -6,6 +6,7 @@ The project goal is to benchmark most popular embedded scripting languages for R
 - [koto](https://crates.io/crates/koto)
 - [mlua](https://crates.io/crates/mlua) (Lua 5.4 and Luau)
 - [rhai](https://crates.io/crates/rhai)
+- [roto](https://crates.io/crates/roto)
 - [rquickjs](https://crates.io/crates/rquickjs)
 - [rune](https://crates.io/crates/rune)
 - [wasmi](https://crates.io/crates/wasmi)
@@ -23,12 +24,13 @@ You also must have `wasm32-unknown-unknown` target installed for webassembly ben
 
 |          |                               |
 |----------|-------------------------------|
-| OS       | Ubuntu 25.04, m6i.16xlarge    |
+| OS       | MacOS 15.5 M1                 |
 | rustc    | v1.87.0                       |
 | boa      | v0.20.0                       |
 | koto     | v0.15.3                       |
 | mlua     | v0.10.5                       |
 | rhai     | v1.22.2                       |
+| roto     | v0.8.0                        |
 | rquickjs | v0.9.0                        |
 | rune     | v0.13.4                       |
 | wasmi    | v0.47.0                       |

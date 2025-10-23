@@ -1,0 +1,54 @@
+fn generate_string(len: i64) -> String {
+    let string = "";
+    let charset_len = CHARSET.len();
+    let i = 0;
+    while i < len {
+        string = string.append(CHARSET.get(rand(charset_len)));
+        i = i + 1;
+    }
+
+    string
+}
+
+fn swap(arr: List, i: i64, j: i64) {
+    let t = arr.get(i);
+    arr.set(i, arr.get(j));
+    arr.set(j, t);
+}
+
+fn partition(arr: List, lo: i64, hi: i64) -> i64 {
+    let pivot_idx = to_i64((to_f64(lo) + to_f64(hi)) / 2.0);
+    let pivot = arr.get(pivot_idx);
+    swap(arr, pivot_idx, hi);
+    let j = lo;
+    while lo < hi {
+        if arr.get(lo).lt(pivot) {
+            swap(arr, lo, j);
+            j = j + 1;
+        }
+        lo = lo + 1;
+    }
+    swap(arr, j, hi);
+    return j;
+}
+
+fn quicksort(arr: List, lo: i64, hi: i64) {
+    while lo < hi {
+        let p = partition(arr, lo, hi);
+        quicksort(arr, lo, p - 1);
+        # Tail recursion
+        lo = p + 1;
+    }
+}
+
+fn bench() -> List {
+    let list = List.new();
+    let i = 0;
+    while i < 10000 {
+        list.push(RustData.new(generate_string(8 + rand(16))));
+        i = i + 1;
+    }
+    quicksort(list, 0, list.len() - 1);
+
+    list
+}
