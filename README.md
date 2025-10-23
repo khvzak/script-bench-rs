@@ -26,7 +26,7 @@ You also must have `wasm32-unknown-unknown` target installed for webassembly ben
 |----------|-------------------------------|
 | OS       | MacOS 15.5 M1                 |
 | rustc    | v1.87.0                       |
-| boa      | v0.20.0                       |
+| boa      | v0.21.0                       |
 | koto     | v0.15.3                       |
 | mlua     | v0.10.5                       |
 | rhai     | v1.22.2                       |
