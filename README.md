@@ -28,7 +28,7 @@ You also must have `wasm32-unknown-unknown` target installed for webassembly ben
 | rustc    | v1.87.0                       |
 | boa      | v0.21.0                       |
 | koto     | v0.15.3                       |
-| mlua     | v0.10.5                       |
+| mlua     | v0.11.4                       |
 | rhai     | v1.23.4                       |
 | roto     | v0.8.0                        |
 | rquickjs | v0.9.0                        |
