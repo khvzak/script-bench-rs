@@ -8,7 +8,6 @@ The project goal is to benchmark most popular embedded scripting languages for R
 - [rhai](https://crates.io/crates/rhai)
 - [roto](https://crates.io/crates/roto)
 - [rquickjs](https://crates.io/crates/rquickjs)
-- [rune](https://crates.io/crates/rune)
 - [wasmi](https://crates.io/crates/wasmi)
 - [wasmtime](https://crates.io/crates/wasmtime)
 
@@ -32,7 +31,6 @@ You also must have `wasm32-unknown-unknown` target installed for webassembly ben
 | rhai     | v1.23.4                       |
 | roto     | v0.8.0                        |
 | rquickjs | v0.9.0                        |
-| rune     | v0.13.4                       |
 | wasmi    | v0.51.1                       |
 | wasmtime | v38.0.2                       |
 

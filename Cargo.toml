@@ -14,7 +14,6 @@ mlua_lua54 = ["mlua/lua54", "mlua/vendored"]
 mlua_luau = ["mlua/luau-jit"]
 rhai = ["dep:rhai", "dep:itertools", "dep:anyhow"]
 roto = ["dep:roto", "dep:anyhow"]
-rune = ["dep:rune", "dep:anyhow"]
 wasmi = ["dep:wasmi", "dep:anyhow"]
 wasmtime = ["dep:wasmtime", "dep:anyhow"]
 
@@ -30,7 +29,6 @@ mlua = { version = "0.11.4", optional = true }
 rhai = { version = "1.23.4", optional = true }
 roto = { version = "0.8.0", optional = true, default-features = false }
 rquickjs = { version = "0.9.0", optional = true }
-rune = { version = "0.13.4", optional = true }
 wasmi = { version = "0.51.1", optional = true }
 wasmtime = { version = "38.0.2", optional = true }
 
@@ -76,11 +74,6 @@ required-features = ["roto"]
 name = "rquickjs"
 harness = false
 required-features = ["rquickjs"]
-
-[[bench]]
-name = "rune"
-harness = false
-required-features = ["rune"]
 
 [[bench]]
 name = "wasmi"
