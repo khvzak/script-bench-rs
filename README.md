@@ -33,8 +33,8 @@ You also must have `wasm32-unknown-unknown` target installed for webassembly ben
 | roto     | v0.8.0                        |
 | rquickjs | v0.9.0                        |
 | rune     | v0.13.4                       |
-| wasmi    | v0.47.0                       |
-| wasmtime | v33.0.0                       |
+| wasmi    | v0.51.1                       |
+| wasmtime | v38.0.2                       |
 
 ## Results
 
