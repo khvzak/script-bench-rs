@@ -1,13 +1,12 @@
-fn generate_string(len: i64) -> String {
-    let string = "";
-    let charset_len = CHARSET.len();
+fn generate_string(len: i64, charset: String) -> String {
+    let result = "";
     let i = 0;
     while i < len {
-        string = string.append(CHARSET.get(rand(charset_len)));
+        result = result.append(string_get(charset, rand(string_len(charset))));
         i = i + 1;
     }
 
-    string
+    result
 }
 
 fn swap(arr: List, i: i64, j: i64) {
@@ -42,10 +41,12 @@ fn quicksort(arr: List, lo: i64, hi: i64) {
 }
 
 fn bench() -> List {
+    let charset = "0123456789abcdef";
+
     let list = List.new();
     let i = 0;
     while i < 10000 {
-        list.push(RustData.new(generate_string(8 + rand(16))));
+        list.push(RustData.new(generate_string(8 + rand(16), charset)));
         i = i + 1;
     }
     quicksort(list, 0, list.len() - 1);

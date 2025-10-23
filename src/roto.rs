@@ -9,19 +9,6 @@ pub struct RustData(pub Arc<str>);
 #[derive(Clone)]
 pub struct List(pub Rc<RefCell<Vec<Val<RustData>>>>);
 
-#[derive(Clone)]
-struct Array(Arc<Vec<Arc<str>>>);
-
-macro_rules! generate_charset {
-    ($($c:expr),+) => {
-        vec![
-            $(
-                Arc::from($c),
-            )+
-        ]
-    };
-}
-
 pub fn sort_userdata(
     run: impl FnOnce(&mut dyn FnMut()),
     validate: impl FnOnce(Val<List>),
@@ -39,6 +26,14 @@ pub fn sort_userdata(
             n.floor() as i64
         }
 
+        fn string_get(charset: Arc<str>, idx: i64) -> Arc<str> {
+            charset[idx as usize..idx as usize + 1].into()
+        }
+
+        fn string_len(s: Arc<str>) -> i64 {
+            s.len() as i64
+        }
+
         #[clone] type RustData = Val<RustData>;
 
         impl Val<RustData> {
@@ -48,20 +43,6 @@ pub fn sort_userdata(
 
             fn lt(this: Val<RustData>, rhs: Val<RustData>) -> bool {
                 this.0.0 < rhs.0.0
-            }
-        }
-
-        const CHARSET: Val<Array> = Val(Array(Arc::new(generate_charset!["0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "a", "b", "c", "d", "e", "f"])));
-
-        #[clone] type Array = Val<Array>;
-
-        impl Val<Array> {
-            fn get(this: Val<Array>, idx: i64) -> Arc<str> {
-                this.0.0.get(idx as usize).cloned().expect("valid array idx")
-            }
-
-            fn len(this: Val<Array>) -> i64 {
-                this.0.0.len() as i64
             }
         }
 
@@ -90,12 +71,10 @@ pub fn sort_userdata(
         }
     };
 
-    let runtime = Runtime::from_lib(lib).map_err(|e| anyhow::anyhow!(e))?;
+    let runtime = Runtime::from_lib(lib)?;
     let mut compiled = runtime.compile("scripts/sort_userdata.roto")?;
 
-    let func = compiled
-        .get_function::<(), fn() -> Val<List>>("bench")
-        .map_err(|e| anyhow::anyhow!(e))?;
+    let func = compiled.get_function::<(), fn() -> Val<List>>("bench")?;
 
     validate(func.call(&mut ()));
     run(&mut || {
