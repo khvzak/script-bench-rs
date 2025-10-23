@@ -349,26 +349,6 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "d71b6127be86fdcfddb610f7182ac57211d4b18a3e9c82eb2d17662f2227ad6a"
 
 [[package]]
-name = "capstone"
-version = "0.13.0"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "015ef5d5ca1743e3f94af9509ba6bd2886523cfee46e48d15c2ef5216fd4ac9a"
-dependencies = [
- "capstone-sys",
- "libc",
-]
-
-[[package]]
-name = "capstone-sys"
-version = "0.17.0"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "2267cb8d16a1e4197863ec4284ffd1aec26fe7e57c58af46b02590a0235809a0"
-dependencies = [
- "cc",
- "libc",
-]
-
-[[package]]
 name = "cast"
 version = "0.3.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -621,9 +601,7 @@ version = "0.120.2"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "aeda0892577afdce1ac2e9a983a55f8c5b87a59334e1f79d8f735a2d7ba4f4b4"
 dependencies = [
- "anyhow",
  "bumpalo",
- "capstone",
  "cranelift-assembler-x64 0.120.2",
  "cranelift-bforest 0.120.2",
  "cranelift-bitset 0.120.2",
@@ -2504,14 +2482,15 @@ dependencies = [
 
 [[package]]
 name = "roto"
-version = "0.8.0"
+version = "0.9.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "7f572a300c43952cbe37bfc6a35a20ea89f5b5de6c4e1dbaebb9e0b54aa90c95"
+checksum = "705bd549031bcc891fd5c810c95ee3dc744b60fd8731f70e92d492b5208a4df2"
 dependencies = [
  "ariadne",
  "cranelift",
  "cranelift-codegen 0.120.2",
  "inetnum",
+ "libc",
  "log",
  "roto-macros",
  "rustc-literal-escaper",
@@ -2521,9 +2500,9 @@ dependencies = [
 
 [[package]]
 name = "roto-macros"
-version = "0.8.0"
+version = "0.9.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "5696e86b417920e00854197b9c41364b7b28d9e0e4ac4b46399729f7e2acf7a8"
+checksum = "a2e3ba983c911c551cd501c8dac62f8f68e2dbeb5ed75de2288e8e53288c4d7f"
 dependencies = [
  "proc-macro2",
  "quote",

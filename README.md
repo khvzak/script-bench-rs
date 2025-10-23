@@ -29,7 +29,7 @@ You also must have `wasm32-unknown-unknown` target installed for webassembly ben
 | koto     | v0.16.0                       |
 | mlua     | v0.11.4                       |
 | rhai     | v1.23.4                       |
-| roto     | v0.8.0                        |
+| roto     | v0.9.0                        |
 | rquickjs | v0.9.0                        |
 | wasmi    | v0.51.1                       |
 | wasmtime | v38.0.2                       |
