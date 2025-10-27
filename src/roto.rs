@@ -53,12 +53,12 @@ pub fn sort_userdata(
                 this.0.0.borrow().get(idx as usize).cloned().expect("get valid list idx")
             }
 
-            fn set(this: Val<List>, idx: i64, val: Val<RustData>) {
-                *this.0.0.borrow_mut().get_mut(idx as usize).expect("set valid list idx") = val;
-            }
-
             fn len(this: Val<List>) -> i64 {
                 this.0.0.borrow().len() as i64
+            }
+
+            fn swap(self, i: i64, j: i64) {
+                self.0.0.borrow_mut().swap(i as usize, j as usize)
             }
         }
     };
