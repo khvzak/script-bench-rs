@@ -16,7 +16,7 @@ fn swap(arr: List, i: i64, j: i64) {
 }
 
 fn partition(arr: List, lo: i64, hi: i64) -> i64 {
-    let pivot_idx = to_i64((to_f64(lo) + to_f64(hi)) / 2.0);
+    let pivot_idx = (lo + hi) / 2;
     let pivot = arr.get(pivot_idx);
     swap(arr, pivot_idx, hi);
     let j = lo;
