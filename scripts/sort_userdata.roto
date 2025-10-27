@@ -9,25 +9,19 @@ fn generate_string(len: i64, charset: String) -> String {
     result
 }
 
-fn swap(arr: List, i: i64, j: i64) {
-    let t = arr.get(i);
-    arr.set(i, arr.get(j));
-    arr.set(j, t);
-}
-
 fn partition(arr: List, lo: i64, hi: i64) -> i64 {
     let pivot_idx = (lo + hi) / 2;
     let pivot = arr.get(pivot_idx);
-    swap(arr, pivot_idx, hi);
+    arr.swap(pivot_idx, hi);
     let j = lo;
     while lo < hi {
         if arr.get(lo).lt(pivot) {
-            swap(arr, lo, j);
+            arr.swap(lo, j);
             j = j + 1;
         }
         lo = lo + 1;
     }
-    swap(arr, j, hi);
+    arr.swap(j, hi);
     return j;
 }
 
