@@ -18,14 +18,6 @@ pub fn sort_userdata(
             rand::rng().random_range(0..n)
         }
 
-        fn to_f64(n: i64) -> f64 {
-            n as f64
-        }
-
-        fn to_i64(n: f64) -> i64 {
-            n.floor() as i64
-        }
-
         fn string_get(charset: Arc<str>, idx: i64) -> Arc<str> {
             charset[idx as usize..idx as usize + 1].into()
         }
