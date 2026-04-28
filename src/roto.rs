@@ -1,17 +1,17 @@
 use std::{cell::RefCell, rc::Rc, sync::Arc};
 
-use rand::Rng;
+use rand::RngExt;
 use roto::{library, Runtime, Val};
 
 #[derive(Clone, Default)]
 pub struct RustData(pub Arc<str>);
 
 #[derive(Clone)]
-pub struct List(pub Rc<RefCell<Vec<Val<RustData>>>>);
+pub struct RustList(pub Rc<RefCell<Vec<Val<RustData>>>>);
 
 pub fn sort_userdata(
     run: impl FnOnce(&mut dyn FnMut()),
-    validate: impl FnOnce(Val<List>),
+    validate: impl FnOnce(Val<RustList>),
 ) -> anyhow::Result<()> {
     let lib = library! {
         fn rand(n: i64) -> i64 {
@@ -38,22 +38,22 @@ pub fn sort_userdata(
             }
         }
 
-        #[clone] type List = Val<List>;
+        #[clone] type RustList = Val<RustList>;
 
-        impl Val<List> {
-            fn new() -> Val<List> {
-                Val(List(Rc::new(RefCell::new(Vec::new()))))
+        impl Val<RustList> {
+            fn new() -> Val<RustList> {
+                Val(RustList(Rc::new(RefCell::new(Vec::new()))))
             }
 
-            fn push(this: Val<List>, rd: Val<RustData>) {
+            fn push(this: Val<RustList>, rd: Val<RustData>) {
                 this.0.0.borrow_mut().push(rd);
             }
 
-            fn get(this: Val<List>, idx: i64) -> Val<RustData> {
+            fn get(this: Val<RustList>, idx: i64) -> Val<RustData> {
                 this.0.0.borrow().get(idx as usize).cloned().expect("get valid list idx")
             }
 
-            fn len(this: Val<List>) -> i64 {
+            fn len(this: Val<RustList>) -> i64 {
                 this.0.0.borrow().len() as i64
             }
 
@@ -66,11 +66,11 @@ pub fn sort_userdata(
     let runtime = Runtime::from_lib(lib)?;
     let mut compiled = runtime.compile("scripts/sort_userdata.roto")?;
 
-    let func = compiled.get_function::<(), fn() -> Val<List>>("bench")?;
+    let func = compiled.get_function::<fn() -> Val<RustList>>("bench")?;
 
-    validate(func.call(&mut ()));
+    validate(func.call());
     run(&mut || {
-        func.call(&mut ());
+        func.call();
     });
 
     Ok(())

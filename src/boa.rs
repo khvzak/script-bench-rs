@@ -7,7 +7,7 @@ use boa_engine::{
     Trace,
 };
 use boa_runtime::Console;
-use rand::Rng;
+use rand::RngExt;
 
 #[derive(Default, Clone, PartialEq, Eq, PartialOrd, Ord, Trace, Finalize, JsData)]
 pub struct RustData(Rc<str>);
