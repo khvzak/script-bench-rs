@@ -4,7 +4,7 @@ use mlua::{
     Function, Lua, MetaMethod, Result, String as LuaString, Table, UserData, UserDataMethods,
     UserDataRef,
 };
-use rand::Rng;
+use rand::RngExt;
 
 #[derive(Default, Clone, PartialEq, Eq, PartialOrd, Ord)]
 pub struct RustData(Rc<str>);
@@ -32,13 +32,13 @@ pub fn sort_userdata(
         Function::wrap(|n: u32| Ok(rand::rng().random_range(0..n))),
     )?;
 
-    #[cfg(feature = "mlua_luau")]
+    #[cfg(any(feature = "mlua_luau", feature = "mlua_luau_jit"))]
     {
         lua.sandbox(true)?;
         lua.set_compiler(mlua::Compiler::new().set_optimization_level(2));
     }
 
-    #[cfg(feature = "mlua_lua54")]
+    #[cfg(any(feature = "mlua_lua54", feature = "mlua_luajit"))]
     {
         let table = lua.globals().get::<mlua::Table>("table")?;
         table.set(

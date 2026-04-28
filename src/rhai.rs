@@ -1,7 +1,7 @@
 use std::rc::Rc;
 
 use itertools::Itertools;
-use rand::Rng;
+use rand::RngExt;
 use rhai::{Array, Engine};
 
 #[derive(Default, Clone, PartialEq, Eq, PartialOrd, Ord)]

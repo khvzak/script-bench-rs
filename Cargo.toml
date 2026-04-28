@@ -11,29 +11,31 @@ name = "script_bench"
 boa = ["dep:boa_engine", "dep:boa_gc", "dep:boa_runtime"]
 koto = ["dep:koto", "dep:anyhow"]
 mlua_lua54 = ["mlua/lua54", "mlua/vendored"]
-mlua_luau = ["mlua/luau-jit"]
+mlua_luajit = ["mlua/luajit", "mlua/vendored"]
+mlua_luau = ["mlua/luau"]
+mlua_luau_jit = ["mlua/luau-jit"]
 rhai = ["dep:rhai", "dep:itertools", "dep:anyhow"]
 roto = ["dep:roto", "dep:anyhow"]
 wasmi = ["dep:wasmi", "dep:anyhow"]
 wasmtime = ["dep:wasmtime", "dep:anyhow"]
 
 [dependencies]
-rand = "0.9"
+rand = "0.10"
 anyhow = { version = "1.0", optional = true }
 itertools = { version = "0.14", optional = true }
-boa_engine = { version = "0.21.0", optional = true }
-boa_gc = { version = "0.21.0", optional = true }
-boa_runtime = { version = "0.21.0", optional = true }
-koto = { version = "0.16.0", optional = true }
-mlua = { version = "0.11.4", optional = true }
-rhai = { version = "1.23.4", optional = true }
-roto = { version = "0.9.0", optional = true, default-features = false }
-rquickjs = { version = "0.9.0", optional = true }
-wasmi = { version = "0.51.1", optional = true }
-wasmtime = { version = "38.0.2", optional = true }
+boa_engine = { version = "0.21.1", optional = true }
+boa_gc = { version = "0.21.1", optional = true }
+boa_runtime = { version = "0.21.1", optional = true }
+koto = { version = "0.16.1", optional = true }
+mlua = { version = "0.11.6", optional = true }
+rhai = { version = "1.24.0", optional = true }
+roto = { version = "0.10.0", optional = true, default-features = false }
+rquickjs = { version = "0.11.0", optional = true }
+wasmi = { version = "1.0.9", optional = true }
+wasmtime = { version = "44.0.0", optional = true }
 
 [dev-dependencies]
-criterion = { version = "0.7" }
+criterion = { version = "0.8" }
 
 [profile.bench]
 opt-level = 3
@@ -56,9 +58,19 @@ harness = false
 required-features = ["mlua_lua54"]
 
 [[bench]]
+name = "mlua_luajit"
+harness = false
+required-features = ["mlua_luajit"]
+
+[[bench]]
 name = "mlua_luau"
 harness = false
 required-features = ["mlua_luau"]
+
+[[bench]]
+name = "mlua_luau_jit"
+harness = false
+required-features = ["mlua_luau_jit"]
 
 [[bench]]
 name = "rhai"
