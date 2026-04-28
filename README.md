@@ -4,7 +4,7 @@ The project goal is to benchmark most popular embedded scripting languages for R
 
 - [boa](https://boajs.dev)
 - [koto](https://crates.io/crates/koto)
-- [mlua](https://crates.io/crates/mlua) (Lua 5.5 and Luau)
+- [mlua](https://crates.io/crates/mlua) (Lua 5.5, LuaJIT, Luau and Luau JIT)
 - [rhai](https://crates.io/crates/rhai)
 - [roto](https://crates.io/crates/roto)
 - [rquickjs](https://crates.io/crates/rquickjs)

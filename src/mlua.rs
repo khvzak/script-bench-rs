@@ -17,7 +17,7 @@ impl UserData for RustData {
         });
         registry.add_meta_method(MetaMethod::ToString, |_, this, ()| Ok(this.0.to_string()));
 
-        #[cfg(feature = "mlua_luau")]
+        #[cfg(any(feature = "mlua_luau", feature = "mlua_luau_jit"))]
         registry.enable_namecall();
     }
 }
@@ -35,14 +35,14 @@ pub fn sort_userdata(
         Function::wrap_raw(|n: u32| rand::rng().random_range(0..n)),
     )?;
 
-    #[cfg(feature = "mlua_luau")]
+    #[cfg(any(feature = "mlua_luau", feature = "mlua_luau_jit"))]
     {
         lua.sandbox(true)?;
         lua.set_jit_options(mlua::state::JitOptions::new().inliner(true));
         lua.set_compiler(mlua::chunk::Compiler::new().set_optimization_level(2));
     }
 
-    #[cfg(feature = "mlua_lua55")]
+    #[cfg(any(feature = "mlua_lua55", feature = "mlua_luajit"))]
     {
         let table = lua.globals().get::<mlua::Table>("table")?;
         table.set(
