@@ -2,7 +2,7 @@ use std::rc::Rc;
 
 use mlua::{
     Function, Lua, MetaMethod, Result, String as LuaString, Table, UserData, UserDataMethods,
-    UserDataRef,
+    UserDataRef, UserDataRegistry,
 };
 use rand::RngExt;
 
@@ -10,12 +10,15 @@ use rand::RngExt;
 pub struct RustData(Rc<str>);
 
 impl UserData for RustData {
-    fn add_methods<M: UserDataMethods<Self>>(methods: &mut M) {
-        methods.add_function("new", |_, s: LuaString| Ok(RustData((*s.to_str()?).into())));
-        methods.add_meta_method(MetaMethod::Lt, |_, this, rhs: UserDataRef<Self>| {
+    fn register(registry: &mut UserDataRegistry<Self>) {
+        registry.add_function("new", |_, s: LuaString| Ok(RustData((*s.to_str()?).into())));
+        registry.add_meta_method(MetaMethod::Lt, |_, this, rhs: UserDataRef<Self>| {
             Ok(this < &rhs)
         });
-        methods.add_meta_method(MetaMethod::ToString, |_, this, ()| Ok(this.0.to_string()));
+        registry.add_meta_method(MetaMethod::ToString, |_, this, ()| Ok(this.0.to_string()));
+
+        #[cfg(feature = "mlua_luau")]
+        registry.enable_namecall();
     }
 }
 
@@ -38,7 +41,7 @@ pub fn sort_userdata(
         lua.set_compiler(mlua::Compiler::new().set_optimization_level(2));
     }
 
-    #[cfg(feature = "mlua_lua54")]
+    #[cfg(feature = "mlua_lua55")]
     {
         let table = lua.globals().get::<mlua::Table>("table")?;
         table.set(
