@@ -12,3 +12,5 @@ pub mod roto;
 pub mod rquickjs;
 #[cfg(any(feature = "wasmi", feature = "wasmtime"))]
 pub mod wasm;
+#[cfg(feature = "luars")]
+pub mod luars;

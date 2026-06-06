@@ -1867,6 +1867,30 @@ dependencies = [
 ]
 
 [[package]]
+name = "luars"
+version = "0.18.1"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "b8417a6501e6578bdab579afcdfda7a8e070565b479d5e518c2ac5e29ecad9ed"
+dependencies = [
+ "ahash",
+ "chrono",
+ "itoa",
+ "js-sys",
+ "luars-derive",
+]
+
+[[package]]
+name = "luars-derive"
+version = "0.9.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "04124844ae8f94ba81c6daa9bd858b5841b4e76b5cbcf2252562be0cdd948985"
+dependencies = [
+ "proc-macro2",
+ "quote",
+ "syn",
+]
+
+[[package]]
 name = "luau0-src"
 version = "0.15.9+luau694"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -2611,6 +2635,7 @@ dependencies = [
  "criterion",
  "itertools 0.14.0",
  "koto",
+ "luars",
  "mlua",
  "rand",
  "rhai",
