@@ -15,7 +15,7 @@ The benchmark is designed to cover not only the performance of code evaluation b
 
 ## Getting your own results
 
-Simply run the `bench.py` script to generate images. It requires `cargo criterion` and `python3-matplotlib` package installed.
+Simply run `uv run bench.py` to generate images. It requires `cargo criterion` and [uv](https://docs.astral.sh/uv/) installed (dependencies are declared inline in the script).
 
 You also must have `wasm32-unknown-unknown` target installed for webassembly benchmarks.
 

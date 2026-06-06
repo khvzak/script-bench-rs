@@ -1,3 +1,10 @@
+# /// script
+# requires-python = ">=3.10"
+# dependencies = [
+#     "matplotlib",
+# ]
+# ///
+
 import json
 import glob
 import subprocess
