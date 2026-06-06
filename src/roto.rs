@@ -1,64 +1,37 @@
-use std::{cell::RefCell, rc::Rc, sync::Arc};
-
 use rand::Rng;
-use roto::{library, Runtime, Val};
+use roto::{library, List, RotoString, Runtime, Val};
 
-#[derive(Clone, Default)]
-pub struct RustData(pub Arc<str>);
-
-#[derive(Clone)]
-pub struct List(pub Rc<RefCell<Vec<Val<RustData>>>>);
+#[derive(Clone, Default, PartialEq)]
+pub struct RustData(pub RotoString);
 
 pub fn sort_userdata(
     run: impl FnOnce(&mut dyn FnMut()),
-    validate: impl FnOnce(Val<List>),
+    validate: impl FnOnce(List<Val<RustData>>),
 ) -> anyhow::Result<()> {
     let lib = library! {
-        fn rand(n: i64) -> i64 {
+        fn rand(n: u64) -> u64 {
             rand::rng().random_range(0..n)
         }
 
-        fn string_get(charset: Arc<str>, idx: i64) -> Arc<str> {
-            charset[idx as usize..idx as usize + 1].into()
-        }
+        impl RotoString {
+            fn get(self, idx: u64) -> RotoString {
+                self[idx as usize..idx as usize + 1].into()
+            }
 
-        fn string_len(s: Arc<str>) -> i64 {
-            s.len() as i64
+            fn len(self) -> u64 {
+                self.bytes().len() as u64
+            }
         }
 
         #[clone] type RustData = Val<RustData>;
 
         impl Val<RustData> {
-            fn new(s: Arc<str>) -> Val<RustData> {
+            fn new(s: RotoString) -> Val<RustData> {
                 Val(RustData(s))
             }
 
             fn lt(this: Val<RustData>, rhs: Val<RustData>) -> bool {
-                this.0.0 < rhs.0.0
-            }
-        }
-
-        #[clone] type List = Val<List>;
-
-        impl Val<List> {
-            fn new() -> Val<List> {
-                Val(List(Rc::new(RefCell::new(Vec::new()))))
-            }
-
-            fn push(this: Val<List>, rd: Val<RustData>) {
-                this.0.0.borrow_mut().push(rd);
-            }
-
-            fn get(this: Val<List>, idx: i64) -> Val<RustData> {
-                this.0.0.borrow().get(idx as usize).cloned().expect("get valid list idx")
-            }
-
-            fn len(this: Val<List>) -> i64 {
-                this.0.0.borrow().len() as i64
-            }
-
-            fn swap(self, i: i64, j: i64) {
-                self.0.0.borrow_mut().swap(i as usize, j as usize)
+                &*this.0.0 < &*rhs.0.0
             }
         }
     };
@@ -66,11 +39,11 @@ pub fn sort_userdata(
     let runtime = Runtime::from_lib(lib)?;
     let mut compiled = runtime.compile("scripts/sort_userdata.roto")?;
 
-    let func = compiled.get_function::<(), fn() -> Val<List>>("bench")?;
+    let func = compiled.get_function::<fn() -> List<Val<RustData>>>("bench")?;
 
-    validate(func.call(&mut ()));
+    validate(func.call());
     run(&mut || {
-        func.call(&mut ());
+        func.call();
     });
 
     Ok(())
