@@ -1,6 +1,6 @@
 use std::rc::Rc;
 
-use rand::Rng;
+use rand::RngExt;
 use rquickjs::class::{Class, JsClass, Readable, Trace, Tracer};
 use rquickjs::function::{Constructor, This};
 use rquickjs::{

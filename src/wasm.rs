@@ -1,6 +1,6 @@
 use std::rc::Rc;
 
-use rand::Rng;
+use rand::RngExt;
 #[cfg(feature = "wasmi")]
 use wasmi::*;
 #[cfg(feature = "wasmtime")]
@@ -102,9 +102,10 @@ pub fn sort_userdata(
             .define("RustData", "rustdata_lt", rustdata_lt)?;
     }
 
+    #[cfg(feature = "wasmtime")]
     let instance = linker.instantiate(&mut store, &module)?;
     #[cfg(feature = "wasmi")]
-    let instance = instance.start(&mut store)?;
+    let instance = linker.instantiate_and_start(&mut store, &module)?;
     store.data_mut().memory = instance.get_memory(&mut store, "memory");
     let bench = instance.get_typed_func::<u32, u32>(&mut store, "bench")?;
     let get_id = instance.get_typed_func::<u32, u32>(&mut store, "get_id")?;

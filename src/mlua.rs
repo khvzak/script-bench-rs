@@ -4,7 +4,7 @@ use mlua::{
     Function, Lua, MetaMethod, Result, String as LuaString, Table, UserData, UserDataMethods,
     UserDataRef,
 };
-use rand::Rng;
+use rand::RngExt;
 
 #[derive(Default, Clone, PartialEq, Eq, PartialOrd, Ord)]
 pub struct RustData(Rc<str>);
@@ -29,7 +29,7 @@ pub fn sort_userdata(
     globals.set("RustData", lua.create_proxy::<RustData>()?)?;
     globals.set(
         "rand",
-        Function::wrap(|n: u32| Ok(rand::rng().random_range(0..n))),
+        Function::wrap_raw(|n: u32| rand::rng().random_range(0..n)),
     )?;
 
     #[cfg(feature = "mlua_luau")]

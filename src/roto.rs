@@ -1,4 +1,4 @@
-use rand::Rng;
+use rand::RngExt;
 use roto::{library, List, RotoString, Runtime, Val};
 
 #[derive(Clone, Default, PartialEq)]

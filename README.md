@@ -23,16 +23,16 @@ You also must have `wasm32-unknown-unknown` target installed for webassembly ben
 
 |          |                               |
 |----------|-------------------------------|
-| OS       | MacOS 15.7 M3 Pro             |
-| rustc    | v1.90.0                       |
-| boa      | v0.21.0                       |
-| koto     | v0.16.0                       |
-| mlua     | v0.11.4                       |
-| rhai     | v1.23.4                       |
-| roto     | v0.9.0                        |
-| rquickjs | v0.9.0                        |
-| wasmi    | v0.51.1                       |
-| wasmtime | v38.0.2                       |
+| OS       | MacOS 26.5 M5 Max             |
+| rustc    | v1.96.0                       |
+| boa      | v0.21.1                       |
+| koto     | v0.16.1                       |
+| mlua     | v0.12-rc.2                    |
+| rhai     | v1.25.1                       |
+| roto     | v0.11.0                       |
+| rquickjs | v0.12.0                       |
+| wasmi    | v1.0.9                        |
+| wasmtime | v45.0.1                       |
 
 ## Results
 
