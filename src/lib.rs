@@ -10,5 +10,7 @@ pub mod rhai;
 pub mod roto;
 #[cfg(feature = "rquickjs")]
 pub mod rquickjs;
+#[cfg(any(feature = "pd_vm", feature = "pd_vm_jit"))]
+pub mod rustscript;
 #[cfg(any(feature = "wasmi", feature = "wasmtime"))]
 pub mod wasm;

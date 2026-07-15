@@ -12,10 +12,16 @@ from os.path import splitext, basename
 import matplotlib.pyplot as plt
 
 
+feature_names = {
+    "rustscript": "pd_vm",
+    "rustscript_jit": "pd_vm_jit",
+}
+
+
 def run_benchmark(name):
     print(f"Running benchmark for {name}")
     proc = subprocess.run(
-        f"cargo criterion --bench {name} --message-format json --features {name}",
+        f"cargo criterion --bench {name} --message-format json --features {feature_names.get(name, name)}",
         shell=True,
         stdout=subprocess.PIPE,
         stderr=subprocess.DEVNULL,
