@@ -1,4 +1,4 @@
-const CHARSET: String = "012345678abcdef";
+const CHARSET: String = "0123456789abcdef";
 
 fn generate_string(len: u64) -> String {
     let result = [];

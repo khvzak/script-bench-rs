@@ -1,0 +1,77 @@
+fn rand(n) -> int;
+fn rust_data_new(value) -> int;
+fn rust_data_lt(lhs: int, rhs: int) -> bool;
+
+use bytes;
+
+fn bench() -> [int] {
+    let charset = [48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 97, 98, 99, 100, 101, 102];
+    let mut values: [int] = [];
+    let mut i = 0;
+    while i < 10000 {
+        let len = 8 + rand(16);
+        let mut chars: [int] = [];
+        let mut n = 0;
+        while n < len {
+            chars[chars.length] = &charset[rand(charset.length)];
+            n = n + 1;
+        }
+        let value = bytes::to_utf8(bytes::from_array_u8(chars));
+        values[values.length] = rust_data_new(value);
+        i = i + 1;
+    }
+
+    let mut ranges: [int] = [0, values.length - 1];
+    let mut top = 1;
+    while top >= 1 {
+        let hi = ranges[top];
+        ranges[top] = 0;
+        top = top - 1;
+        let lo = ranges[top];
+        ranges[top] = 0;
+        top = top - 1;
+
+        if lo < hi {
+            let pivot_idx = (lo + hi) / 2;
+            let temp = &values[pivot_idx];
+            values[pivot_idx] = values[hi];
+            values[hi] = temp;
+
+            let mut j = lo;
+            let mut k = lo;
+            while k < hi {
+                if rust_data_lt(&values[k], &values[hi]) {
+                    if k != j {
+                        let temp = &values[k];
+                        values[k] = values[j];
+                        values[j] = temp;
+                    }
+                    j = j + 1;
+                }
+                k = k + 1;
+            }
+
+            if j != hi {
+                let temp = &values[j];
+                values[j] = values[hi];
+                values[hi] = temp;
+            }
+
+            if j > lo {
+                top = top + 1;
+                ranges[top] = lo;
+                top = top + 1;
+                ranges[top] = j - 1;
+            }
+            if j < hi {
+                top = top + 1;
+                ranges[top] = j + 1;
+                top = top + 1;
+                ranges[top] = hi;
+            }
+        }
+    }
+    values
+}
+
+bench();
