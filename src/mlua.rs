@@ -1,7 +1,7 @@
 use std::rc::Rc;
 
 use mlua::{
-    Function, Lua, MetaMethod, Result, String as LuaString, Table, UserData, UserDataMethods,
+    Function, Lua, LuaString, MetaMethod, Result, Table, UserData, UserDataMethods,
     UserDataRef, UserDataRegistry,
 };
 use rand::RngExt;
@@ -38,7 +38,8 @@ pub fn sort_userdata(
     #[cfg(feature = "mlua_luau")]
     {
         lua.sandbox(true)?;
-        lua.set_compiler(mlua::Compiler::new().set_optimization_level(2));
+        lua.set_jit_options(mlua::state::JitOptions::new().inliner(true));
+        lua.set_compiler(mlua::chunk::Compiler::new().set_optimization_level(2));
     }
 
     #[cfg(feature = "mlua_lua55")]

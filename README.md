@@ -4,7 +4,7 @@ The project goal is to benchmark most popular embedded scripting languages for R
 
 - [boa](https://boajs.dev)
 - [koto](https://crates.io/crates/koto)
-- [mlua](https://crates.io/crates/mlua) (Lua 5.4 and Luau)
+- [mlua](https://crates.io/crates/mlua) (Lua 5.5 and Luau)
 - [rhai](https://crates.io/crates/rhai)
 - [roto](https://crates.io/crates/roto)
 - [rquickjs](https://crates.io/crates/rquickjs)
@@ -21,21 +21,21 @@ You also must have `wasm32-unknown-unknown` target installed for webassembly ben
 
 ## Environment
 
-|          |                               |
-|----------|-------------------------------|
-| OS       | MacOS 26.5 M5 Max             |
-| rustc    | v1.96.0                       |
-| boa      | v0.21.1                       |
-| koto     | v0.16.1                       |
-| mlua     | v0.12-rc.2                    |
-| rhai     | v1.25.1                       |
-| roto     | v0.11.0                       |
-| rquickjs | v0.12.0                       |
-| wasmi    | v1.0.9                        |
-| wasmtime | v45.0.1                       |
+| Component | Version |
+|-----------|---------|
+| OS | macOS 27.0, Apple M5 Max |
+| rustc | v1.99.0 |
+| boa | v0.22.0 |
+| koto | v0.16.1 |
+| mlua | v0.12.2 |
+| rhai | v1.26.1 |
+| roto | v0.12.0 |
+| rquickjs | v0.14.0 |
+| wasmi | v2.0.0 |
+| wasmtime | v49.0.2 |
 
 ## Results
 
 ![Sort Rust objects](Sort%20Rust%20objects.png)
 
-Rev 1761581592
+Rev 1791068096

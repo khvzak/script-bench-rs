@@ -13,12 +13,11 @@ import matplotlib.pyplot as plt
 
 
 def run_benchmark(name):
-    print(f"Running benchmark for {name}")
+    print(f"Running benchmark for {name}", flush=True)
     proc = subprocess.run(
-        f"cargo criterion --bench {name} --message-format json --features {name}",
+        f"cargo criterion --locked --bench {name} --message-format json --features {name}",
         shell=True,
         stdout=subprocess.PIPE,
-        stderr=subprocess.DEVNULL,
         text=True,
         check=True,
     )
@@ -46,6 +45,9 @@ for f in glob.glob("benches/*.rs"):
     for res in results:
         benches[name][res["id"]] = res
         ids.add(res["id"])
+
+with open("target/benchmark-results.json", "w") as f:
+    json.dump(benches, f, indent=2)
 
 for id in ids:
     fig, ax = plt.subplots()
